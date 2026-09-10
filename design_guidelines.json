@@ -1,0 +1,179 @@
+{
+  "project_name": "SmartDry Connect™",
+  "company_name": "Adebobo Dynamic Resources",
+  "tagline": "Monitor. Trace. Grow.",
+  "target_audience": "London investors, commercial agricultural producers, equipment manufacturers, pilot customers, strategic partners",
+  "app_type": "Industrial IoT SCADA SaaS Investor Demo Dashboard",
+  "theme": "Dark Industrial SCADA / High-Tech Agritech Command Center",
+  "instructions_to_main_agent": "Build a world-class, high-density, ISA-18.2 compliant industrial SCADA investor-demo dashboard for SmartDry Connect™ by Adebobo Dynamic Resources. The app monitors a commercial hybrid LPG hot-air agricultural dryer equipped with solar/battery electrical controls, ESP32 IoT sensors (temperature, humidity, load-cell weight, gas detection, OLED local display). No authentication required — opens directly to the Dashboard. Include a persistent top banner: 'SIMULATED / DEMO DATA — NOT PILOT RESULTS'. Ensure all 7 core sections are fully interactive, rich with real-time simulated telemetry, responsive, and visually stunning with custom SVG gauges, Recharts line charts, batch form handlers, scannable QR codes, and system architecture diagrams. Add data-testid attributes to all interactive elements.",
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": {
+    "anti_ai_slop_rules": [
+      "DO NOT use generic centered layouts or plain light Bootstrap cards. Use a dark, industrial command-center aesthetic.",
+      "DO NOT use AI assistant emoji characters like 🤖🧠💭💡🔮🎯. Use Phosphor or Lucide icons exclusively.",
+      "DO NOT use transition: all globally. Apply targeted CSS transitions to hover and active states.",
+      "DO NOT center align the app container. Use left-aligned, structured grid containers for scanability.",
+      "Always set explicit hover text colors (e.g. hover:bg-emerald-600 hover:text-white).",
+      "Ensure all card borders have subtle 1px slate-800 or emerald-950/40 inner glow borders with crisp dark backdrop blur.",
+      "Persistent demo badge must remain pinned at the top header or toolbar: 'SIMULATED / DEMO DATA — NOT PILOT RESULTS'."
+    ],
+    "test_id_convention": "All buttons, inputs, links, tabs, tables, gauge indicators, and cards MUST include data-testid in kebab-case (e.g. data-testid='live-monitor-start-button')."
+  },
+  "typography": {
+    "headline_font": "Outfit / Barlow Condensed (Sans Display)",
+    "body_font": "Inter / JetBrains Mono (Technical Data & Metrics)",
+    "font_pairings": "Outfit for section titles and high-impact hero headings; JetBrains Mono for sensor values, units, timestamps, batch IDs, and terminal logs.",
+    "hierarchy": {
+      "h1": "text-3xl lg:text-4xl font-extrabold tracking-tight text-white",
+      "h2": "text-xl lg:text-2xl font-bold tracking-tight text-slate-100",
+      "h3": "text-lg font-semibold text-slate-200",
+      "h4_card_title": "text-xs font-mono uppercase tracking-widest text-slate-400",
+      "body": "text-sm text-slate-300 leading-relaxed",
+      "metric_large": "font-mono text-3xl lg:text-4xl font-black tracking-tight",
+      "caption": "text-xs font-mono text-slate-500"
+    }
+  },
+  "colors": {
+    "archetype": "THE PERFORMANCE PRO / INDUSTRIAL HIGH-TECH (Dark SCADA)",
+    "palette": {
+      "background_main": "#090D16 (Deep Industrial Navy/Obsidian)",
+      "sidebar_bg": "#0D1322 (Dark Control Panel Blue-Grey)",
+      "card_surface": "#111827 (Slate 900 / Dark Zinc)",
+      "card_surface_hover": "#1F2937 (Slate 800)",
+      "card_border": "rgba(255, 255, 255, 0.08)",
+      "brand_green_primary": "#059669 (SmartDry Emerald)",
+      "brand_green_accent": "#10B981 (Active Telemetry Glow)",
+      "tech_blue_primary": "#0284C7 (IoT & Solar Energy Blue)",
+      "tech_blue_glow": "#38BDF8 (Cloud Sync & ESP32 Signals)",
+      "warning_amber": "#F59E0B (Thermal Caution / Weight Change)",
+      "alarm_red": "#EF4444 (LPG Gas Alert / Over-temperature)",
+      "text_primary": "#F9FAFB (High Contrast White)",
+      "text_secondary": "#9CA3AF (Cool Grey 400)",
+      "text_muted": "#6B7280 (Cool Grey 500)"
+    },
+    "contrast_rules": "All normal text has >5:1 contrast against dark slate surfaces. Gauge numbers are rendered in high-luminance lime/emerald (#10B981) or cyan (#38BDF8) on dark background for high legibility in control room conditions."
+  },
+  "grids_and_layouts": {
+    "spacing_scale": "Generous industrial padding (p-4 to p-8). Grid gaps min gap-4, max gap-6.",
+    "bento_strategy": "High Density Grid (Mode B for Dashboards/SCADA). Summary metric cards in 4-col top row, primary telemetry charts spanning 2-3 cols, telemetry gauge panel spanning 1-2 cols.",
+    "sidebar": "Fixed left sidebar (width 256px on desktop, collapsable on mobile) with company logo 'SmartDry Connect™', sub-label 'by Adebobo Dynamic Resources', navigation links, real-time status pill, and 'SIMULATED DATA' badge."
+  },
+  "components_and_sections": [
+    {
+      "section_id": "dashboard",
+      "name": "1. Overview Dashboard",
+      "key_elements": [
+        "Dryer Operational Status Card (Idle / Drying / Cooling / Alarm)",
+        "Live Telemetry Quick Cards: Chamber Temp (°C), RH (%), Crop Weight (kg), Gas Safety Level (PPM)",
+        "Active Batch Summary Card (Batch ID, Crop Type, Target Moisture vs Current Moisture, Drying Time Elapsed)",
+        "Power Source Indicator (Solar PV vs LPG Thermal vs Battery Buffer)",
+        "ESP32 → Cloud → Dashboard Connectivity Signal Flow Widget (Packet frequency, Latency, RSSI dBm)",
+        "Global Simulated Data Banner & Quick Action Buttons (Jump to Monitor, New Batch)"
+      ]
+    },
+    {
+      "section_id": "live_monitor",
+      "name": "2. Live Drying Monitor (SCADA Control)",
+      "key_elements": [
+        "Real-Time SCADA Command Bar with START / PAUSE / STOP drying cycle controls & simulated toggle state",
+        "Interactive SVG Circular Gauge Dials: 1) Thermal Chamber Temp (°C with setpoint needle), 2) Humidity RH (%), 3) LPG Gas Detector (PPM safety range)",
+        "Real-time Telemetry Line Chart (Recharts) plotting Temp (°C), Humidity (%), and Moisture loss over time with range filters (15m, 1h, 6h, Full Batch)",
+        "Drying Stage Progress Bar (Pre-heating → Moisture Extraction → Constant Rate → Falling Rate → Cooling)",
+        "Control Parameters Panel: Hot Air Blower Fan Speed (RPM), LPG Valve Solenoid State, Tray Load Balancer status"
+      ]
+    },
+    {
+      "section_id": "new_batch",
+      "name": "3. New Batch Registration Form",
+      "key_elements": [
+        "Form fields: Batch ID (auto-generated e.g. SDC-2026-089), Product Crop (Cassava, Ginger, Cocoa, Maize, Hibiscus, Plantain), Starting Moisture %, Target Moisture %, Initial Weight (kg), Number of Trays, Assigned Operator, Hybrid Thermal Method (Solar+LPG / Solar Only / LPG Boost), Start Datetime",
+        "Expected Drying Duration Calculator & Fuel Cost Estimator preview based on input parameters",
+        "Form validation, Sonner toast notification on batch submit, auto-route option to Live Monitor"
+      ]
+    },
+    {
+      "section_id": "batch_history",
+      "name": "4. Batch History & Traceability Table",
+      "key_elements": [
+        "Interactive Data Table with Search, Product Filter, and Status Badges (Completed, In-Progress, Aborted)",
+        "Columns: Batch ID, Crop, Start Date, Initial Wt (kg), Final Wt (kg), Yield %, Total kWh, LPG Used (kg), Traceability Score, Actions (View QR, Export Audit PDF)",
+        "Modal or Drawer for detailed batch audit log (Temp curves, operator notes, quality certification)"
+      ]
+    },
+    {
+      "section_id": "energy_analytics",
+      "name": "5. Energy & Performance Analytics",
+      "key_elements": [
+        "KPI Cards: Total LPG Consumed (kg), Solar Energy Harvested (kWh), Battery Reserve (%), Energy per kg Dried (kWh/kg), Processing Cost per kg ($/kg)",
+        "Energy Source Contribution Donut/Bar Chart (Solar PV vs LPG Gas vs Battery Storage)",
+        "Comparative Analytics Panel: Traditional Sun/Open Air Drying vs Diesel Hot-Air vs SmartDry™ Hybrid (Drying Speed, Cost/kg, Crop Quality Retention, CO2 Reduction)",
+        "Clear 'SIMULATED COMPARISON MODEL' disclaimers"
+      ]
+    },
+    {
+      "section_id": "qr_traceability",
+      "name": "6. QR Traceability Generator & Passport",
+      "key_elements": [
+        "Interactive QR Code Generator per batch (Scannable QR that opens digital crop provenance passport)",
+        "Digital Batch Passport View: Farm origin, Harvest date, SmartDry drying thermal profile summary, Final moisture cert (10-12%), Export readiness grade, Operator digital sign-off",
+        "Download QR PNG & Print Label Preview for packaging bags"
+      ]
+    },
+    {
+      "section_id": "system_status",
+      "name": "7. System Status & Architecture",
+      "key_elements": [
+        "Hardware IoT Topology Diagram: Physical Hybrid Dryer → ESP32 MCU + Sensors (DHT22/PT100, Load Cell HX711, MQ-5 Gas, OLED) → MQTT/Wi-Fi Gateway → SmartDry Connect Cloud → Real-time UI",
+        "Subsystem Health Matrix: LPG Thermal Ignition, Solar MPPT Controller, Battery Management System, Load Cell Calibration, Gas Safety Cutoff Solenoid",
+        "Live Sensor Raw Data Feed / Terminal Stream Log (simulated JSON telemetry stream from ESP32)"
+      ]
+    }
+  ],
+  "motion_and_interactions": {
+    "library": "Framer Motion & Recharts Animations",
+    "micro_interactions": [
+      "Hover elevation on metric cards with subtle emerald border highlight",
+      "Pulsing status LED dots (green = online/normal, amber = warning, red = alert)",
+      "Animated needle or stroke transition on SCADA gauge dials",
+      "Live pulsing dot on telemetry chart updates every 3 seconds"
+    ]
+  },
+  "media_assets": {
+    "image_urls": [
+      {
+        "category": "Solar & Agricultural Technology",
+        "url": "https://images.unsplash.com/photo-1561115867-be8460fbebfe?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2OTF8MHwxfHNlYXJjaHw0fHxpbmR1c3RyaWFsJTIwc29sYXIlMjBhZ3JpY3VsdHVyYWwlMjB0ZWNobm9sb2d5JTIwc2Vuc29yJTIwSW9UJTIwZHJ5ZXJ8ZW58MHx8fHwxNzg5MDUwODQ4fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Solar panel array with remote IoT monitoring unit in agricultural environment"
+      },
+      {
+        "category": "Dried Agricultural Produce",
+        "url": "https://images.unsplash.com/photo-1759255260667-6c93b7569741?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwzfHxkcmllZCUyMHNwaWNlcyUyMGFncmljdWx0dXJhbCUyMHByb2R1Y2UlMjBjb2NvYSUyMGNhc3NhdmElMjBoYXJ2ZXN0fGVufDB8fHx8MTc4OTA1MDg1Nnww&ixlib=rb-4.1.0&q=85",
+        "description": "High-value dried agricultural crops and spices ready for export packaging"
+      }
+    ]
+  },
+  "testing": {
+    "data_testid_required": true,
+    "key_testids": [
+      "sidebar-logo",
+      "demo-data-badge",
+      "nav-dashboard",
+      "nav-live-monitor",
+      "nav-new-batch",
+      "nav-batch-history",
+      "nav-energy-analytics",
+      "nav-qr-traceability",
+      "nav-system-status",
+      "start-drying-button",
+      "pause-drying-button",
+      "stop-drying-button",
+      "temp-gauge",
+      "humidity-gauge",
+      "gas-safety-gauge",
+      "new-batch-form",
+      "new-batch-submit-btn",
+      "batch-history-table",
+      "qr-code-canvas",
+      "system-architecture-diagram"
+    ]
+  }
+}

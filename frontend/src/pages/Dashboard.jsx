@@ -33,7 +33,7 @@ export default function Dashboard() {
         <div>
           <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-white">Operations Dashboard</h1>
           <p className="text-sm text-slate-400 mt-1.5 max-w-2xl">
-            Digital monitoring & traceability layer for the SmartDry™ hybrid LPG hot-air dryer.
+            Digital monitoring & traceability layer for the SmartDry Connect™ hybrid LPG hot-air dryer.
             Electrical controls, sensors and communications powered by solar/battery.
           </p>
         </div>
@@ -82,12 +82,12 @@ export default function Dashboard() {
 
       <div className="grid lg:grid-cols-3 gap-4">
         <div className="sd-card p-5 lg:col-span-2" data-testid="connectivity-flow-widget">
-          <div className="sd-label mb-4">Future Connectivity Concept — Live Data Path</div>
+          <div className="sd-label mb-4">Future Live-Data Architecture</div>
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             {[
               { icon: Cpu, title: "ESP32 + Sensors", sub: "Temp/RH · Load cell · Gas · OLED", color: "text-emerald-400 border-emerald-500/40 bg-emerald-600/10" },
               { icon: Cloud, title: "SmartDry Connect Cloud", sub: "IoT ingestion · Batch records", color: "text-sky-400 border-sky-500/40 bg-sky-600/10" },
-              { icon: MonitorSmartphone, title: "Dashboard & QR", sub: "Monitoring · Analytics · Traceability", color: "text-emerald-400 border-emerald-500/40 bg-emerald-600/10" },
+              { icon: MonitorSmartphone, title: "Dashboard + QR Traceability", sub: "Monitoring · Analytics · Traceability", color: "text-emerald-400 border-emerald-500/40 bg-emerald-600/10" },
             ].map((n, i) => (
               <div key={n.title} className="flex items-center gap-3 flex-1">
                 <div className={`flex-1 rounded-xl border p-4 ${n.color.split(" ").slice(1).join(" ")}`}>
@@ -113,6 +113,9 @@ export default function Dashboard() {
               <div className="text-[10px] font-mono text-slate-500 uppercase tracking-wider">Telemetry Rate</div>
             </div>
           </div>
+          <p className="mt-4 text-[11px] font-mono text-slate-500 leading-relaxed">
+            Current demo uses simulated data. Pilot integration will connect real sensor data. Latency, signal and telemetry-rate values shown are simulated demonstration values.
+          </p>
         </div>
 
         <div className="sd-card p-5" data-testid="power-status-card">
@@ -122,26 +125,26 @@ export default function Dashboard() {
               <Flame className="w-5 h-5 text-amber-400 mt-0.5" />
               <div>
                 <div className="text-sm font-semibold text-slate-100">LPG Thermal Source</div>
-                <div className="text-[11px] text-slate-500">Hot-air generation for drying — the primary heat engine</div>
+                <div className="text-[11px] text-slate-500">Primary thermal source for hot-air drying</div>
               </div>
             </div>
             <div className="flex items-start gap-3 rounded-lg bg-[#0d1322] border border-white/[0.06] p-3">
               <Sun className="w-5 h-5 text-sky-400 mt-0.5" />
               <div>
                 <div className="text-sm font-semibold text-slate-100">Solar PV Array</div>
-                <div className="text-[11px] text-slate-500">Powers controls, sensors, ESP32 & communications</div>
+                <div className="text-[11px] text-slate-500">Electrical power for controls, sensors, ESP32 and communications</div>
               </div>
             </div>
             <div className="flex items-start gap-3 rounded-lg bg-[#0d1322] border border-white/[0.06] p-3">
               <BatteryCharging className="w-5 h-5 text-emerald-400 mt-0.5" />
               <div>
                 <div className="text-sm font-semibold text-slate-100">Battery Buffer</div>
-                <div className="text-[11px] text-slate-500">Keeps monitoring & safety systems running off-sun</div>
+                <div className="text-[11px] text-slate-500">Electrical/control backup for monitoring and control systems</div>
               </div>
             </div>
           </div>
           <p className="mt-4 text-[11px] font-mono text-slate-500 leading-relaxed">
-            Not a conventional grid-electric dehydrator — designed for energy-efficient, off-grid-ready operation.
+            Hybrid LPG hot-air drying with solar/battery-powered electrical controls, designed for energy-efficient agricultural processing.
           </p>
         </div>
       </div>

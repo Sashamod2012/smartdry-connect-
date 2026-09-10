@@ -57,7 +57,7 @@ export default function TraceRecord() {
             <div className="mt-6 rounded-lg bg-[#0d1322] border border-white/[0.06] p-4">
               <div className="sd-label mb-1.5">Traceability Information</div>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Processed with the SmartDry™ hybrid LPG hot-air drying system. Chamber climate, product weight and gas safety
+                Processed with the SmartDry Connect™ hybrid LPG hot-air drying system. Chamber climate, product weight and gas safety
                 were monitored throughout the cycle by the ESP32 sensor layer. This passport links the physical product to its
                 digital batch record for quality assurance and buyer verification.
               </p>

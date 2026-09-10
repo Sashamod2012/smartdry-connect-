@@ -131,7 +131,7 @@ export default function SystemStatus() {
                 <div key={i} className="text-slate-400">
                   <span className="text-slate-600">{e.ts}</span>{" "}
                   <span className="text-sky-400">{e.device}</span>{" "}
-                  <span className="text-emerald-400">temp={e.temp_c}°C</span>{" "}
+                  <span className="text-emerald-400">temp={e.temp_c} °C</span>{" "}
                   <span className="text-sky-300">rh={e.rh_pct}%</span>{" "}
                   <span className="text-amber-400">wt={e.weight_kg}kg</span>{" "}
                   <span className="text-slate-300">gas={e.gas_ppm}ppm</span>{" "}

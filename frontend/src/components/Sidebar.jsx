@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
-  LayoutDashboard, Activity, PlusCircle, History, Zap, QrCode, Cpu, Menu, X, Wind,
+  LayoutDashboard, Activity, PlusCircle, History, Zap, QrCode, Cpu, Menu, X, Wind, LogOut,
 } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 const NAV = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard, testId: "nav-dashboard", end: true },
@@ -23,6 +24,12 @@ const linkCls = ({ isActive }) =>
 
 export const Sidebar = () => {
   const [open, setOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
+  };
   return (
     <>
       <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-[#0d1322] border-b border-white/10 flex items-center justify-between px-4 h-14">
@@ -41,6 +48,10 @@ export const Sidebar = () => {
               <n.icon className="w-4 h-4" /> {n.label}
             </NavLink>
           ))}
+          <button data-testid="mobile-logout-button" onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-red-400 hover:bg-white/5 border border-transparent transition-colors">
+            <LogOut className="w-4 h-4" /> Sign out
+          </button>
         </div>
       )}
       <aside className="hidden lg:flex flex-col fixed left-0 top-0 bottom-0 w-64 bg-[#0d1322] border-r border-white/[0.07] z-40">
@@ -70,6 +81,16 @@ export const Sidebar = () => {
             </NavLink>
           ))}
         </nav>
+        <div className="px-5 py-3 border-t border-white/[0.07] flex items-center justify-between gap-2">
+          <div className="min-w-0">
+            <div className="text-[11px] font-semibold text-slate-200 truncate" data-testid="sidebar-user-name">{user?.name || "Admin"}</div>
+            <div className="text-[10px] font-mono text-slate-500 truncate" data-testid="sidebar-user-email">{user?.email}</div>
+          </div>
+          <button data-testid="logout-button" onClick={handleLogout} title="Sign out"
+            className="p-2 rounded-lg border border-white/10 text-slate-400 hover:text-red-400 hover:border-red-500/40 transition-colors shrink-0">
+            <LogOut className="w-3.5 h-3.5" />
+          </button>
+        </div>
         <div className="px-5 py-4 border-t border-white/[0.07]">
           <div className="text-xs font-semibold text-slate-300 tracking-wide">Monitor. Trace. Grow.</div>
           <div className="text-[10px] font-mono text-slate-500 mt-1">Hybrid LPG dryer · solar/battery controls · Investor demo MVP</div>

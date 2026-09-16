@@ -176,7 +176,7 @@ class LoginRequest(BaseModel):
 @api_router.post("/auth/login")
 async def login(payload: LoginRequest, request: Request, response: Response):
     email = payload.email.lower().strip()
-    identifier = f"{request.client.host}:{email}"
+    identifier = email
     attempts = await db.login_attempts.find_one({"identifier": identifier})
     if attempts and attempts.get("count", 0) >= 5:
         locked_until = attempts.get("locked_until")

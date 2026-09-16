@@ -49,8 +49,19 @@ def test_get_batch_404(client):
     assert r.status_code == 404
 
 
+@pytest.fixture
+def auth_client():
+    s = requests.Session()
+    s.headers.update({"Content-Type": "application/json"})
+    r = s.post(f"{API}/auth/login",
+               json={"email": "folasade.amodu@gmail.com", "password": "SmartDry@2026"},
+               timeout=15)
+    assert r.status_code == 200
+    return s
+
+
 # Create batch + persistence
-def test_create_batch_and_persistence(client):
+def test_create_batch_and_persistence(auth_client):
     payload = {
         "product": "Ginger",
         "starting_weight_kg": 55.5,
@@ -58,7 +69,7 @@ def test_create_batch_and_persistence(client):
         "operator": "TEST_Operator",
         "drying_method": "LPG Boost Mode",
     }
-    r = client.post(f"{API}/batches", json=payload, timeout=15)
+    r = auth_client.post(f"{API}/batches", json=payload, timeout=15)
     assert r.status_code == 200, r.text
     created = r.json()
     assert created["product"] == "Ginger"
@@ -67,19 +78,18 @@ def test_create_batch_and_persistence(client):
     assert created["status"] == "RUNNING"
     assert created["traceability_status"] == "QR Issued"
 
-    # GET verify persisted
-    g = client.get(f"{API}/batches/{created['batch_id']}", timeout=15)
+    # GET verify persisted (public)
+    g = auth_client.get(f"{API}/batches/{created['batch_id']}", timeout=15)
     assert g.status_code == 200
     assert g.json()["operator"] == "TEST_Operator"
 
 
-def test_patch_batch(client):
-    # create then patch
+def test_patch_batch(auth_client):
     payload = {"product": "Herbs", "starting_weight_kg": 30, "tray_quantity": 10,
                "operator": "TEST_Patch", "drying_method": "Solar-Assist Eco Mode"}
-    c = client.post(f"{API}/batches", json=payload, timeout=15).json()
+    c = auth_client.post(f"{API}/batches", json=payload, timeout=15).json()
     bid = c["batch_id"]
-    r = client.patch(f"{API}/batches/{bid}", json={"status": "COMPLETE", "final_weight_kg": 7.1}, timeout=15)
+    r = auth_client.patch(f"{API}/batches/{bid}", json={"status": "COMPLETE", "final_weight_kg": 7.1}, timeout=15)
     assert r.status_code == 200
     assert r.json()["status"] == "COMPLETE"
     assert r.json()["final_weight_kg"] == 7.1

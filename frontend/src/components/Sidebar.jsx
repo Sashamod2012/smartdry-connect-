@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
-  LayoutDashboard, Activity, PlusCircle, History, Zap, QrCode, Cpu, Menu, X, Wind, LogOut,
+  LayoutDashboard, Activity, PlusCircle, History, Zap, QrCode, Cpu, Menu, X, LogOut,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
@@ -33,10 +33,7 @@ export const Sidebar = () => {
   return (
     <>
       <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 flex items-center justify-between px-4 h-14">
-        <div className="flex items-center gap-2">
-          <Wind className="w-5 h-5 text-emerald-600" />
-          <span className="font-bold text-sm tracking-tight">SmartDry Connect<span className="text-emerald-600">™</span></span>
-        </div>
+        <img src="/smartdry-logo.png" alt="SmartDry Connect™" className="h-10 w-auto" data-testid="mobile-logo" />
         <button data-testid="mobile-menu-toggle" onClick={() => setOpen(!open)} className="p-2 text-slate-600 hover:text-slate-900">
           {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
@@ -56,14 +53,9 @@ export const Sidebar = () => {
       )}
       <aside className="hidden lg:flex flex-col fixed left-0 top-0 bottom-0 w-64 bg-white border-r border-slate-200 z-40">
         <div className="px-5 pt-6 pb-5 border-b border-slate-200">
-          <div className="flex items-center gap-2.5" data-testid="sidebar-logo">
-            <div className="w-9 h-9 rounded-lg bg-emerald-600/20 border border-emerald-500/40 flex items-center justify-center">
-              <Wind className="w-5 h-5 text-emerald-600" />
-            </div>
-            <div>
-              <div className="font-extrabold tracking-tight text-slate-900 leading-tight">SmartDry Connect<span className="text-emerald-600">™</span></div>
-              <div className="text-[10px] font-mono text-slate-500 tracking-wide">by Adebobo Dynamic Resources</div>
-            </div>
+          <div data-testid="sidebar-logo">
+            <img src="/smartdry-logo.png" alt="SmartDry Connect™" className="w-40 h-auto" />
+            <div className="text-[10px] font-mono text-slate-500 tracking-wide mt-1.5">by Adebobo Dynamic Resources</div>
           </div>
           <div className="mt-4 flex items-center gap-2">
             <span className="flex items-center gap-1.5 text-[10px] font-mono px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/30">

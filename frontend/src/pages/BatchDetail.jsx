@@ -97,6 +97,7 @@ export default function BatchDetail() {
 
       <div className="sd-card p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
+          <img src="/smartdry-logo.png" alt="SmartDry Connect™" className="h-12 w-auto mb-2.5" data-testid="batch-report-logo" />
           <div className="sd-label">Batch Record</div>
           <div className="flex items-center gap-3 mt-1.5 flex-wrap">
             <span className="font-mono text-2xl font-extrabold text-slate-900" data-testid="detail-batch-id">{batch.batch_id}</span>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import {
-  Wind, Mail, Lock, Eye, EyeOff, Loader2, AlertTriangle, Activity, BarChart3, QrCode, Cpu, Cloud, MonitorSmartphone,
+  Mail, Lock, Eye, EyeOff, Loader2, AlertTriangle, Activity, BarChart3, QrCode, Cpu, Cloud, MonitorSmartphone,
 } from "lucide-react";
 import { useAuth, formatApiErrorDetail } from "@/context/AuthContext";
 
@@ -42,14 +42,9 @@ export default function Login() {
         <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-emerald-100/70 blur-3xl" />
         <div className="absolute bottom-0 right-0 w-80 h-80 rounded-full bg-sky-100/70 blur-3xl" />
         <div className="relative">
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center">
-              <Wind className="w-6 h-6 text-emerald-600" />
-            </div>
-            <div>
-              <div className="font-extrabold text-xl tracking-tight text-slate-900">SmartDry Connect<span className="text-emerald-600">™</span></div>
-              <div className="text-[10px] font-mono text-slate-500 tracking-wide">by Adebobo Dynamic Resources</div>
-            </div>
+          <div>
+            <img src="/smartdry-logo.png" alt="SmartDry Connect™" className="w-44 h-auto" data-testid="login-logo" />
+            <div className="text-[10px] font-mono text-slate-500 tracking-wide mt-2">by Adebobo Dynamic Resources</div>
           </div>
           <h1 className="mt-12 text-4xl xl:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight max-w-md">
             Industrial drying intelligence, <span className="text-emerald-600">built for African processors.</span>
@@ -91,11 +86,8 @@ export default function Login() {
       <div className="flex items-center justify-center p-6 relative">
         <div className="absolute top-0 right-0 w-72 h-72 rounded-full bg-emerald-100/60 blur-3xl lg:hidden" />
         <div className="w-full max-w-md relative">
-          <div className="lg:hidden flex items-center gap-2.5 mb-8 justify-center">
-            <div className="w-9 h-9 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center">
-              <Wind className="w-5 h-5 text-emerald-600" />
-            </div>
-            <div className="font-extrabold tracking-tight text-slate-900">SmartDry Connect<span className="text-emerald-600">™</span></div>
+          <div className="lg:hidden flex justify-center mb-8">
+            <img src="/smartdry-logo.png" alt="SmartDry Connect™" className="w-36 h-auto" data-testid="login-logo-mobile" />
           </div>
           <div className="sd-card p-8 shadow-lg shadow-slate-200">
             <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">Admin Manager Login</h2>

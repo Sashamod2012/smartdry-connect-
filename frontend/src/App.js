@@ -1,7 +1,6 @@
 import "@/App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "sonner";
-import { Wind } from "lucide-react";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { Sidebar } from "@/components/Sidebar";
 import { DemoBanner } from "@/components/DemoBanner";
@@ -18,10 +17,7 @@ import SystemStatus from "@/pages/SystemStatus";
 
 const AuthLoading = () => (
   <div className="min-h-screen bg-[#f4f6f8] flex flex-col items-center justify-center gap-4" data-testid="auth-loading">
-    <div className="w-12 h-12 rounded-xl bg-emerald-600/20 border border-emerald-500/40 flex items-center justify-center">
-      <Wind className="w-6 h-6 text-emerald-600 animate-pulse" />
-    </div>
-    <span className="text-xs font-mono text-slate-500 tracking-widest">SMARTDRY CONNECT™</span>
+    <img src="/smartdry-logo.png" alt="SmartDry Connect™" className="w-32 h-auto animate-pulse" data-testid="auth-loading-logo" />
   </div>
 );
 
@@ -50,7 +46,7 @@ const AppShell = () => (
         </Routes>
       </main>
       <footer className="px-6 py-4 border-t border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1">
-        <span className="text-xs font-semibold text-slate-500">SmartDry Connect™ — Monitor. Trace. Grow.</span>
+        <img src="/smartdry-logo.png" alt="SmartDry Connect™" className="h-8 w-auto" data-testid="footer-logo" />
         <span className="text-[10px] font-mono text-slate-600">Powered by Adebobo Dynamic Resources · Hybrid LPG hot-air dryer with solar/battery-powered controls · Demo MVP</span>
       </footer>
     </div>

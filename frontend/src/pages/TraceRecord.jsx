@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import QRCode from "react-qr-code";
-import { ShieldCheck, ArrowLeft, Wind } from "lucide-react";
+import { ShieldCheck, ArrowLeft } from "lucide-react";
 import { getBatch } from "@/lib/api";
 
 export default function TraceRecord() {
@@ -25,11 +25,8 @@ export default function TraceRecord() {
         <div className="sd-card overflow-hidden">
           <div className="bg-gradient-to-r from-emerald-50 to-sky-50 border-b border-slate-200 px-6 py-5 flex items-center justify-between">
             <div>
-              <div className="flex items-center gap-2">
-                <Wind className="w-4 h-4 text-emerald-600" />
-                <span className="font-extrabold text-slate-900 tracking-tight">SmartDry Connect™ Batch Passport</span>
-              </div>
-              <div className="text-[10px] font-mono text-slate-500 mt-1">Digital provenance record · Adebobo Dynamic Resources</div>
+              <img src="/smartdry-logo.png" alt="SmartDry Connect™" className="h-16 w-auto" data-testid="passport-logo" />
+              <div className="text-[10px] font-mono text-slate-500 mt-1.5">Batch Passport · Digital provenance record · Adebobo Dynamic Resources</div>
             </div>
             <div className="bg-white p-2 rounded-lg">
               <QRCode value={`${window.location.origin}/trace/${batch.batch_id}`} size={64} />

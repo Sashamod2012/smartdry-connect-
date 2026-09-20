@@ -21,9 +21,9 @@ const DataTag = ({ source }) => (
 );
 
 const MetricRow = ({ label, value, source, testId }) => (
-  <div className="flex items-center justify-between rounded-lg bg-slate-50 border border-slate-200 px-3 py-2.5">
+  <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1 rounded-lg bg-slate-50 border border-slate-200 px-3 py-2.5">
     <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500">{label}</span>
-    <span className="flex items-center gap-2">
+    <span className="flex items-center gap-2 ml-auto">
       <span className="font-mono text-xs font-bold text-slate-800" data-testid={testId}>{value ?? "—"}</span>
       {source && <DataTag source={source} />}
     </span>
@@ -120,7 +120,7 @@ export default function EnergyAnalytics() {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <SectionCard icon={Flame} title="Thermal Energy" tone="bg-amber-50 border-amber-200 text-amber-600" testId="thermal-energy-section">
           <MetricRow label="Thermal Source" value={d?.thermal?.source} source={d?.thermal?.data_source} testId="thermal-source" />
           <MetricRow label="LPG Consumption" value={d ? `${d.thermal.lpg_consumption_kg} kg` : "—"} source={d?.thermal?.data_source} testId="thermal-lpg" />

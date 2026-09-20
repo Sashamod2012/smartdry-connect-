@@ -108,19 +108,19 @@ export default function BatchDetail() {
         <div className="flex flex-wrap items-center gap-2">
           {batch.status === "PLANNED" && (
             <button data-testid="start-processing-btn" onClick={() => changeStatus("PROCESSING")} disabled={busy}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-semibold transition-colors">
+              className="flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-semibold transition-colors">
               <Play className="w-3.5 h-3.5" /> Start Processing
             </button>
           )}
           {batch.status === "PROCESSING" && (
             <button data-testid="pause-batch-btn" onClick={() => changeStatus("PAUSED")} disabled={busy}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-white text-xs font-semibold transition-colors">
+              className="flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-lg bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-white text-xs font-semibold transition-colors">
               <Pause className="w-3.5 h-3.5" /> Pause
             </button>
           )}
           {batch.status === "PAUSED" && (
             <button data-testid="resume-batch-btn" onClick={() => changeStatus("PROCESSING")} disabled={busy}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-semibold transition-colors">
+              className="flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-semibold transition-colors">
               <Play className="w-3.5 h-3.5" /> Resume
             </button>
           )}
@@ -129,7 +129,7 @@ export default function BatchDetail() {
               <input data-testid="final-weight-input" type="number" min="0" step="0.1" value={finalWeight} onChange={(e) => setFinalWeight(e.target.value)}
                 placeholder="Final kg (optional)" className="sd-input w-36 py-2 text-xs font-mono" />
               <button data-testid="complete-batch-btn" onClick={() => changeStatus("COMPLETED")} disabled={busy}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-sky-600 hover:bg-sky-500 disabled:opacity-50 text-white text-xs font-semibold transition-colors">
+                className="flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-lg bg-sky-600 hover:bg-sky-500 disabled:opacity-50 text-white text-xs font-semibold transition-colors">
                 <CheckCircle2 className="w-3.5 h-3.5" /> Complete Batch
               </button>
             </div>
@@ -137,11 +137,11 @@ export default function BatchDetail() {
           {batch.status === "COMPLETED" && (
             <>
               <Link to={`/report/${batch.batch_id}`} data-testid="view-report-link"
-                className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition-colors">
+                className="flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition-colors">
                 <FileText className="w-3.5 h-3.5" /> Batch Report
               </Link>
               <Link to={`/trace/${batch.batch_id}`} data-testid="view-passport-link"
-                className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-300 hover:border-emerald-500/60 hover:text-emerald-600 text-slate-600 text-xs font-semibold transition-colors">
+                className="flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-lg border border-slate-300 hover:border-emerald-500/60 hover:text-emerald-600 text-slate-600 text-xs font-semibold transition-colors">
                 <QrCode className="w-3.5 h-3.5" /> QR Passport
               </Link>
             </>
@@ -289,7 +289,7 @@ export default function BatchDetail() {
             <input data-testid="event-description-input" className="sd-input flex-1" value={eventDesc} onChange={(e) => setEventDesc(e.target.value)}
               placeholder="Event description — e.g. setpoint adjusted to 62 °C" />
             <button data-testid="record-event-btn" type="submit" disabled={busy}
-              className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-semibold transition-colors whitespace-nowrap">
+              className="flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-semibold transition-colors whitespace-nowrap">
               <PlusCircle className="w-3.5 h-3.5" /> Record Event
             </button>
           </form>

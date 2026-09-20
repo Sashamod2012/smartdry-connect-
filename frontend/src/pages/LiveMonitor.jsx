@@ -80,17 +80,17 @@ export default function LiveMonitor() {
           <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">Live Drying Monitor</h1>
           <p className="text-sm text-slate-500 mt-1.5">SCADA-style process view · batch <span className="font-mono text-sky-600">SDC-2026-090</span> (simulated)</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button data-testid="start-drying-button" onClick={start} disabled={status === "RUNNING"}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold transition-colors">
+            className="flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold transition-colors">
             <Play className="w-4 h-4" /> START
           </button>
           <button data-testid="pause-drying-button" onClick={pause} disabled={status !== "RUNNING"}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-amber-600/80 hover:bg-amber-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold transition-colors">
+            className="flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-lg bg-amber-600/80 hover:bg-amber-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold transition-colors">
             <Pause className="w-4 h-4" /> PAUSE
           </button>
           <button data-testid="stop-drying-button" onClick={stop} disabled={status === "IDLE"}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-red-600/80 hover:bg-red-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold transition-colors">
+            className="flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-lg bg-red-600/80 hover:bg-red-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold transition-colors">
             <Square className="w-4 h-4" /> STOP
           </button>
         </div>

@@ -120,7 +120,7 @@ export default function NewBatch() {
 
         <div className="flex flex-wrap items-center gap-3 pt-2">
           <button data-testid="new-batch-submit-btn" type="submit" disabled={submitting}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-sm font-semibold transition-colors">
+            className="flex items-center gap-2 px-5 py-3 min-h-[44px] rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-sm font-semibold transition-colors">
             <PlusCircle className="w-4 h-4" /> {submitting ? "Creating…" : "Create Batch Record"}
           </button>
           <span className="text-[10px] font-mono text-slate-400">Record stored in platform database · demo environment</span>

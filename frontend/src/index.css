@@ -153,3 +153,13 @@ code, .font-mono {
         border-color: #cbd5e1 !important;
     }
 }
+
+body {
+    overflow-x: clip;
+}
+
+@media (pointer: coarse) {
+    button {
+        min-height: 44px;
+    }
+}

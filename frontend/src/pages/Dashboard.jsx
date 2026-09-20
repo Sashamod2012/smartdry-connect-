@@ -40,7 +40,7 @@ export default function Dashboard() {
             Electrical controls, sensors and communications powered by solar/battery.
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Link to="/monitor" data-testid="dash-goto-monitor-btn" className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold transition-colors">
             <Activity className="w-4 h-4" /> Live Monitor
           </Link>
@@ -108,15 +108,15 @@ export default function Dashboard() {
           <div className="grid grid-cols-3 gap-2">
             <div>
               <div className="flex items-center gap-1 text-[9px] font-mono uppercase tracking-widest text-slate-500"><Thermometer className="w-3 h-3 text-emerald-600" /> Temp</div>
-              <div className="font-mono text-lg lg:text-xl font-extrabold text-emerald-600 mt-1 whitespace-nowrap" data-testid="stat-temperature">{t ? t.temperature_c : "—"}<span className="text-[10px] text-slate-500 font-normal"> °C</span></div>
+              <div className="font-mono text-base sm:text-lg lg:text-xl font-extrabold text-emerald-600 mt-1 whitespace-nowrap" data-testid="stat-temperature">{t ? t.temperature_c : "—"}<span className="text-[10px] text-slate-500 font-normal"> °C</span></div>
             </div>
             <div>
               <div className="flex items-center gap-1 text-[9px] font-mono uppercase tracking-widest text-slate-500"><Weight className="w-3 h-3 text-amber-600" /> Weight</div>
-              <div className="font-mono text-lg lg:text-xl font-extrabold text-amber-600 mt-1 whitespace-nowrap" data-testid="stat-weight">{t ? t.weight_kg : "—"}<span className="text-[10px] text-slate-500 font-normal"> kg</span></div>
+              <div className="font-mono text-base sm:text-lg lg:text-xl font-extrabold text-amber-600 mt-1 whitespace-nowrap" data-testid="stat-weight">{t ? t.weight_kg : "—"}<span className="text-[10px] text-slate-500 font-normal"> kg</span></div>
             </div>
             <div>
               <div className="flex items-center gap-1 text-[9px] font-mono uppercase tracking-widest text-slate-500"><Timer className="w-3 h-3 text-slate-600" /> Time</div>
-              <div className="font-mono text-lg lg:text-xl font-extrabold text-slate-800 mt-1 whitespace-nowrap" data-testid="stat-drying-time">{t ? fmtElapsed(t.elapsed_min) : "—"}</div>
+              <div className="font-mono text-base sm:text-lg lg:text-xl font-extrabold text-slate-800 mt-1 whitespace-nowrap" data-testid="stat-drying-time">{t ? fmtElapsed(t.elapsed_min) : "—"}</div>
             </div>
           </div>
           <div className="mt-4 pt-4 border-t border-slate-200 grid grid-cols-2 gap-3">

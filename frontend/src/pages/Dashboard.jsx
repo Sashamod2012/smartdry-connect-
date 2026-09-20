@@ -82,7 +82,7 @@ export default function Dashboard() {
             <span className="sd-label">Active Batch</span>
             <Link to="/history" data-testid="active-batch-history-link" className="text-[10px] font-mono text-slate-500 hover:text-emerald-600 transition-colors">HISTORY →</Link>
           </div>
-          <div className="flex items-start justify-between gap-3">
+          <Link to={`/batches/${t?.active_batch?.batch_id || "SDC-2026-090"}`} data-testid="active-batch-open-link" className="flex items-start justify-between gap-3 rounded-lg -m-2 p-2 hover:bg-slate-50 transition-colors">
             <div>
               <div className="text-xl font-extrabold tracking-tight text-slate-900" data-testid="active-batch-product">{t?.active_batch?.product || "Vegetables"}</div>
               <div className="font-mono text-sm font-bold text-sky-600 mt-1" data-testid="active-batch-id">{t?.active_batch?.batch_id || "SDC-2026-090"}</div>
@@ -90,7 +90,7 @@ export default function Dashboard() {
             <span className={`px-2.5 py-1 rounded-full border text-[10px] font-mono font-bold tracking-wider ${statusStyle[t?.active_batch?.status || "PROCESSING"]}`} data-testid="active-batch-status">
               {t?.active_batch?.status || "PROCESSING"}
             </span>
-          </div>
+          </Link>
           <div className="mt-4 pt-4 border-t border-slate-200 grid grid-cols-2 gap-3">
             <div>
               <div className="text-[9px] font-mono uppercase tracking-widest text-slate-500">Trays</div>

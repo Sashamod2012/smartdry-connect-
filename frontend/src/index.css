@@ -139,3 +139,17 @@ code, .font-mono {
         border-bottom-color: inherit;
     }
 }
+
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    body {
+        background: #ffffff !important;
+    }
+    .sd-card {
+        box-shadow: none !important;
+        border-color: #cbd5e1 !important;
+    }
+}

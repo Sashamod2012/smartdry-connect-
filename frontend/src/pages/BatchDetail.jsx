@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   ArrowLeft, Play, Pause, CheckCircle2, PlusCircle, QrCode, Package, Wheat,
-  ClipboardList, Activity, MonitorCheck, Flag, Flame, Zap, PlugZap, Sun, BatteryCharging,
+  ClipboardList, Activity, MonitorCheck, Flag, Flame, Zap, PlugZap, Sun, BatteryCharging, FileText,
 } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { getBatch, setBatchStatus, addBatchEvent } from "@/lib/api";
@@ -135,10 +135,16 @@ export default function BatchDetail() {
             </div>
           )}
           {batch.status === "COMPLETED" && (
-            <Link to={`/trace/${batch.batch_id}`} data-testid="view-passport-link"
-              className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-300 hover:border-emerald-500/60 hover:text-emerald-600 text-slate-600 text-xs font-semibold transition-colors">
-              <QrCode className="w-3.5 h-3.5" /> QR Passport
-            </Link>
+            <>
+              <Link to={`/report/${batch.batch_id}`} data-testid="view-report-link"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition-colors">
+                <FileText className="w-3.5 h-3.5" /> Batch Report
+              </Link>
+              <Link to={`/trace/${batch.batch_id}`} data-testid="view-passport-link"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-300 hover:border-emerald-500/60 hover:text-emerald-600 text-slate-600 text-xs font-semibold transition-colors">
+                <QrCode className="w-3.5 h-3.5" /> QR Passport
+              </Link>
+            </>
           )}
         </div>
       </div>

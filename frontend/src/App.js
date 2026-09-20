@@ -13,6 +13,7 @@ import EnergyAnalytics from "@/pages/EnergyAnalytics";
 import Traceability from "@/pages/Traceability";
 import TraceRecord from "@/pages/TraceRecord";
 import BatchDetail from "@/pages/BatchDetail";
+import BatchReport from "@/pages/BatchReport";
 import SystemStatus from "@/pages/SystemStatus";
 
 const AuthLoading = () => (
@@ -61,6 +62,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/trace/:batchId" element={<TraceRecord />} />
+            <Route path="/report/:batchId" element={<RequireAuth><BatchReport /></RequireAuth>} />
             <Route path="/*" element={<RequireAuth><AppShell /></RequireAuth>} />
           </Routes>
           <Toaster theme="light" richColors position="top-right" />

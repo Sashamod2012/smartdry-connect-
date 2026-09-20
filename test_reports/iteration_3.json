@@ -1,0 +1,44 @@
+{
+  "summary": "Iteration 3 (light theme + batch traceability workflow) tested end-to-end. Backend: 18/18 pytest cases pass covering telemetry, migrated statuses (PLANNED/PROCESSING/PAUSED/COMPLETED), auth-gated create/status/events endpoints, invalid-status 400, missing-batch 404, full workflow (create PLANNED → PROCESSING → PAUSED → RESUME → custom event → COMPLETED with final_weight_kg → 24-point temp/weight histories + LPG/electrical energy + QR Issued), persistence via GET, and energy/summary + system/status. Found and fixed one CRITICAL backend bug introduced by the status rename (see rca). Frontend: end-to-end UI workflow driven by Playwright — login → New Batch form (all 9 new testids present, batch-id readOnly + auto-generated) → submit shows batch-created-card → Open Batch Record → Batch Detail /batches/:id renders traceability-timeline + all sections + no-history-note in PLANNED → Start Processing → Pause → Resume → record custom event via event-form → Complete with final_weight 14.5 kg → status COMPLETED, temp-history-chart + weight-history-chart + view-passport-link visible, output shows 14.5 kg / 29.0% yield, energy shows 0.09 kg LPG / 0.01 kWh, event-form hidden → reload persists all data → Batch History shows new batch with Open link + PROCESSING/COMPLETED badges → Dashboard shows subtle amber SIMULATED / DEMO banner → Energy analytics page loads (previously 500) → Logout returns to /login. Light theme verified via computed body background rgb(244,246,248).",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "GET /api/energy/summary", "issue": "(FIXED) Was querying db.batches by status='COMPLETE' after the status rename, resulting in empty list → ZeroDivisionError → HTTP 500. Renamed to 'COMPLETED'."},
+      {"endpoint": "POST /api/auth/login", "issue": "(carried over from iter 2) brute-force lockout keyed only on email now — acceptable but exposes admin to lockout DoS by attacker knowing the email. Consider IP+email with real X-Forwarded-For."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "BatchDetail Processing charts (Temperature/Weight history)", "issues": ["Recharts logs width(-1)/height(-1) warnings on initial mount because the two chart containers use h-48 inside a lg:grid-cols-2 wrapper whose columns start at 0 width during layout thrash. Non-blocking (charts render correctly after layout settles) but pollutes console. Suggest wrapping ResponsiveContainer with a min-width:0 grid child, e.g. add min-w-0 to the wrapping div."]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/backend_test.py",
+    "/app/backend/tests/test_auth.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "(Optional polish) Add min-w-0 to the two chart-column divs in /app/frontend/src/pages/BatchDetail.jsx to silence recharts width(-1) warnings on completion.",
+    "(Security, deferred from iter 2) Consider hardening brute-force lockout key using X-Forwarded-For, not client host."
+  ],
+  "critical_code_review_comments": [
+    "server.py had a stale 'COMPLETE' literal in energy_summary after renaming statuses to COMPLETED — always grep-audit legacy strings when renaming enums. Fixed in this iteration.",
+    "server.py still uses deprecated @app.on_event('startup') / 'shutdown') — migrate to FastAPI lifespan context manager (flagged in iterations 1 and 2, still open).",
+    "server.py status migration runs on every startup via update_many({status: RUNNING/COMPLETE}) — idempotent, OK, but consider one-off migration script.",
+    "BatchDetail.jsx recomputes gridStatus/solarStatus/batteryStatus from substring of electrical_source string — brittle; would break if the option label changes. Consider structured energy-source config.",
+    "NewBatch.jsx auto-batch-id computed from client-side max is racy (two operators could get the same suggested id, server dedupes to 409). Acceptable for demo; server-side generation on create is the true source of truth."
+  ],
+  "updated_files": [
+    "/app/backend/server.py (fixed energy_summary status filter COMPLETE → COMPLETED)",
+    "/app/backend/tests/backend_test.py (rewritten for new statuses + traceability workflow + 401/400/404 auth tests, 18 tests)"
+  ],
+  "success_rate": {"backend": "100% (18/18)", "frontend": "100% of critical flows"},
+  "test_credentials": "folasade.amodu@gmail.com / SmartDry@2026 (admin, seeded from backend/.env)",
+  "seed_data_creation": "Backend tests create 1 TEST_Trace batch that walks PLANNED→PROCESSING→PAUSED→PROCESSING→+Inspection event→COMPLETED (final 12.3 kg). UI test created 1 batch (Catfish, 50 kg, TEST_UI_Op) walked through the same flow ending in COMPLETED at 14.5 kg. Seed batches SDC-2026-083..090 remain intact.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Run: pytest /app/backend/tests/backend_test.py -v -o addopts=''. The pytest.ini in /app/backend adds xdist workers which is fine; if collection fails ensure REACT_APP_BACKEND_URL is set or the default is used. Iteration 3 added the traceability workflow endpoints POST /api/batches/{id}/status and /events. Old batches migrated from RUNNING→PROCESSING and COMPLETE→COMPLETED on startup. Auth cookie httpOnly, samesite=none. Public: GET /api/batches, /api/batches/{id}, /api/telemetry, /api/energy/summary, /api/system/status. All others need cookie/Bearer.",
+  "rca of the issue": "GET /api/energy/summary returned HTTP 500 after this iteration migrated batch statuses from COMPLETE→COMPLETED. Root cause: the query filter in energy_summary() was not updated with the rest of the codebase and still filtered by {'status':'COMPLETE'}, returning zero completed batches. Downstream f-string 'round(total_hours / len(completed), 1)' then divided by 0 → ZeroDivisionError. Reproduction: curl /api/energy/summary → 500 (traceback in supervisor backend.err.log). Mitigation applied: renamed the filter to 'COMPLETED' in /app/backend/server.py line 424. Verified: endpoint now returns 200 with batches_completed>=1. Prevention: introduce a BatchStatus enum shared between server and frontend, and grep-audit all string literals when renaming."
+}

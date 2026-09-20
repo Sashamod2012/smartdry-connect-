@@ -238,7 +238,7 @@ export default function BatchDetail() {
         </div>
         {batch.temperature_history?.length > 0 ? (
           <div className="grid lg:grid-cols-2 gap-4">
-            <div>
+            <div className="min-w-0">
               <div className="text-[10px] font-mono uppercase tracking-widest text-slate-500 mb-2">Temperature History (°C) — simulated</div>
               <div className="h-48" data-testid="temp-history-chart">
                 <ResponsiveContainer width="100%" height="100%">
@@ -252,7 +252,7 @@ export default function BatchDetail() {
                 </ResponsiveContainer>
               </div>
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="text-[10px] font-mono uppercase tracking-widest text-slate-500 mb-2">Weight History (kg) — simulated</div>
               <div className="h-48" data-testid="weight-history-chart">
                 <ResponsiveContainer width="100%" height="100%">

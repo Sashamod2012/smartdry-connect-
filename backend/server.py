@@ -421,7 +421,7 @@ async def add_batch_event(batch_id: str, payload: EventCreate, user: dict = Depe
 
 @api_router.get("/energy/summary")
 async def energy_summary():
-    completed = await db.batches.find({"status": "COMPLETE"}, {"_id": 0}).to_list(500)
+    completed = await db.batches.find({"status": "COMPLETED"}, {"_id": 0}).to_list(500)
     total_hours = sum(b.get("duration_hours") or 0 for b in completed)
     start_w = sum(b["starting_weight_kg"] for b in completed)
     final_w = sum(b.get("final_weight_kg") or 0 for b in completed)

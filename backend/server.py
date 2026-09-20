@@ -89,14 +89,24 @@ class Batch(BaseModel):
     batch_id: str
     product: str
     starting_weight_kg: float
-    tray_quantity: int
+    tray_quantity: int = 24
     operator: str
-    drying_method: str
+    drying_method: str = "Hybrid LPG Hot-Air (Solar-Assist Controls)"
     start_datetime: str
-    status: str = "RUNNING"  # IDLE / RUNNING / PAUSED / COMPLETE / ABORTED
+    status: str = "PLANNED"  # PLANNED / PROCESSING / PAUSED / COMPLETED
     final_weight_kg: Optional[float] = None
     duration_hours: Optional[float] = None
-    traceability_status: str = "QR Issued"
+    traceability_status: str = "QR Pending"
+    raw_material_source: Optional[str] = None
+    thermal_source: str = "LPG"
+    electrical_source: str = "Solar + Battery"
+    notes: Optional[str] = None
+    end_datetime: Optional[str] = None
+    lpg_consumption_kg: Optional[float] = None
+    electrical_energy_kwh: Optional[float] = None
+    temperature_history: List[dict] = Field(default_factory=list)
+    weight_history: List[dict] = Field(default_factory=list)
+    events: List[dict] = Field(default_factory=list)
     created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
@@ -104,10 +114,24 @@ class BatchCreate(BaseModel):
     batch_id: Optional[str] = None
     product: str
     starting_weight_kg: float
-    tray_quantity: int
+    tray_quantity: int = 24
     operator: str
-    drying_method: str
+    drying_method: str = "Hybrid LPG Hot-Air (Solar-Assist Controls)"
     start_datetime: Optional[str] = None
+    raw_material_source: Optional[str] = None
+    thermal_source: str = "LPG"
+    electrical_source: str = "Solar + Battery"
+    notes: Optional[str] = None
+
+
+class StatusUpdate(BaseModel):
+    status: str
+    final_weight_kg: Optional[float] = None
+
+
+class EventCreate(BaseModel):
+    event_type: str
+    description: str
 
 
 class BatchUpdate(BaseModel):
@@ -118,14 +142,14 @@ class BatchUpdate(BaseModel):
 
 
 SEED_BATCHES = [
-    {"batch_id": "SDC-2026-083", "product": "Catfish", "starting_weight_kg": 120.0, "final_weight_kg": 38.4, "tray_quantity": 24, "operator": "A. Balogun", "drying_method": "Hybrid LPG Hot-Air (Solar-Assist Controls)", "duration_hours": 9.5, "status": "COMPLETE", "days_ago": 9},
-    {"batch_id": "SDC-2026-084", "product": "Ginger", "starting_weight_kg": 90.0, "final_weight_kg": 21.6, "tray_quantity": 20, "operator": "C. Eze", "drying_method": "Hybrid LPG Hot-Air (Solar-Assist Controls)", "duration_hours": 8.0, "status": "COMPLETE", "days_ago": 7},
-    {"batch_id": "SDC-2026-085", "product": "Pepper", "starting_weight_kg": 75.0, "final_weight_kg": 16.1, "tray_quantity": 18, "operator": "A. Balogun", "drying_method": "LPG Boost Mode", "duration_hours": 7.2, "status": "COMPLETE", "days_ago": 6},
-    {"batch_id": "SDC-2026-086", "product": "Tomatoes", "starting_weight_kg": 110.0, "final_weight_kg": 14.3, "tray_quantity": 24, "operator": "F. Adeyemi", "drying_method": "Hybrid LPG Hot-Air (Solar-Assist Controls)", "duration_hours": 8.8, "status": "COMPLETE", "days_ago": 4},
-    {"batch_id": "SDC-2026-087", "product": "Herbs", "starting_weight_kg": 40.0, "final_weight_kg": 9.2, "tray_quantity": 12, "operator": "C. Eze", "drying_method": "Solar-Assist Eco Mode", "duration_hours": 4.5, "status": "COMPLETE", "days_ago": 3},
-    {"batch_id": "SDC-2026-088", "product": "Grains", "starting_weight_kg": 150.0, "final_weight_kg": 132.0, "tray_quantity": 24, "operator": "F. Adeyemi", "drying_method": "LPG Boost Mode", "duration_hours": 6.0, "status": "COMPLETE", "days_ago": 2},
-    {"batch_id": "SDC-2026-089", "product": "Fruits", "starting_weight_kg": 95.0, "final_weight_kg": 22.8, "tray_quantity": 22, "operator": "A. Balogun", "drying_method": "Hybrid LPG Hot-Air (Solar-Assist Controls)", "duration_hours": 8.4, "status": "COMPLETE", "days_ago": 1},
-    {"batch_id": "SDC-2026-090", "product": "Vegetables", "starting_weight_kg": 85.0, "final_weight_kg": None, "tray_quantity": 24, "operator": "C. Eze", "drying_method": "Hybrid LPG Hot-Air (Solar-Assist Controls)", "duration_hours": None, "status": "RUNNING", "days_ago": 0},
+    {"batch_id": "SDC-2026-083", "product": "Catfish", "starting_weight_kg": 120.0, "final_weight_kg": 38.4, "tray_quantity": 24, "operator": "A. Balogun", "drying_method": "Hybrid LPG Hot-Air (Solar-Assist Controls)", "duration_hours": 9.5, "status": "COMPLETED", "days_ago": 9, "raw_material_source": "Demo supplier — fish farm (simulated)"},
+    {"batch_id": "SDC-2026-084", "product": "Ginger", "starting_weight_kg": 90.0, "final_weight_kg": 21.6, "tray_quantity": 20, "operator": "C. Eze", "drying_method": "Hybrid LPG Hot-Air (Solar-Assist Controls)", "duration_hours": 8.0, "status": "COMPLETED", "days_ago": 7, "raw_material_source": "Demo supplier — ginger farm (simulated)"},
+    {"batch_id": "SDC-2026-085", "product": "Pepper", "starting_weight_kg": 75.0, "final_weight_kg": 16.1, "tray_quantity": 18, "operator": "A. Balogun", "drying_method": "LPG Boost Mode", "duration_hours": 7.2, "status": "COMPLETED", "days_ago": 6, "raw_material_source": "Demo supplier — pepper farm (simulated)"},
+    {"batch_id": "SDC-2026-086", "product": "Tomatoes", "starting_weight_kg": 110.0, "final_weight_kg": 14.3, "tray_quantity": 24, "operator": "F. Adeyemi", "drying_method": "Hybrid LPG Hot-Air (Solar-Assist Controls)", "duration_hours": 8.8, "status": "COMPLETED", "days_ago": 4, "raw_material_source": "Demo supplier — tomato farm (simulated)"},
+    {"batch_id": "SDC-2026-087", "product": "Herbs", "starting_weight_kg": 40.0, "final_weight_kg": 9.2, "tray_quantity": 12, "operator": "C. Eze", "drying_method": "Solar-Assist Eco Mode", "duration_hours": 4.5, "status": "COMPLETED", "days_ago": 3, "raw_material_source": "Demo supplier — herb farm (simulated)"},
+    {"batch_id": "SDC-2026-088", "product": "Grains", "starting_weight_kg": 150.0, "final_weight_kg": 132.0, "tray_quantity": 24, "operator": "F. Adeyemi", "drying_method": "LPG Boost Mode", "duration_hours": 6.0, "status": "COMPLETED", "days_ago": 2, "raw_material_source": "Demo supplier — grain farm (simulated)"},
+    {"batch_id": "SDC-2026-089", "product": "Fruits", "starting_weight_kg": 95.0, "final_weight_kg": 22.8, "tray_quantity": 22, "operator": "A. Balogun", "drying_method": "Hybrid LPG Hot-Air (Solar-Assist Controls)", "duration_hours": 8.4, "status": "COMPLETED", "days_ago": 1, "raw_material_source": "Demo supplier — fruit farm (simulated)"},
+    {"batch_id": "SDC-2026-090", "product": "Vegetables", "starting_weight_kg": 85.0, "final_weight_kg": None, "tray_quantity": 24, "operator": "C. Eze", "drying_method": "Hybrid LPG Hot-Air (Solar-Assist Controls)", "duration_hours": None, "status": "PROCESSING", "days_ago": 0, "raw_material_source": "Demo supplier — vegetable farm (simulated)"},
 ]
 
 
@@ -137,6 +161,12 @@ async def seed_batches():
     docs = []
     for b in SEED_BATCHES:
         start = now - timedelta(days=b["days_ago"], hours=random.randint(1, 6))
+        events = [{"timestamp": start.isoformat(), "event_type": "Batch created", "description": f"Batch {b['batch_id']} registered — {b['product']}, {b['starting_weight_kg']} kg"}]
+        if b["status"] == "COMPLETED":
+            events.append({"timestamp": start.isoformat(), "event_type": "Batch started", "description": "Drying cycle started (simulated process)"})
+            events.append({"timestamp": (start + timedelta(hours=b["duration_hours"])).isoformat(), "event_type": "Batch completed", "description": f"Drying completed — final weight {b['final_weight_kg']} kg (simulated values)"})
+        else:
+            events.append({"timestamp": start.isoformat(), "event_type": "Batch started", "description": "Drying cycle started (simulated process)"})
         docs.append({
             "batch_id": b["batch_id"],
             "product": b["product"],
@@ -148,7 +178,14 @@ async def seed_batches():
             "start_datetime": start.isoformat(),
             "status": b["status"],
             "duration_hours": b["duration_hours"],
-            "traceability_status": "QR Issued" if b["status"] == "COMPLETE" else "QR Pending",
+            "traceability_status": "QR Issued" if b["status"] == "COMPLETED" else "QR Pending",
+            "raw_material_source": b["raw_material_source"],
+            "thermal_source": "LPG",
+            "electrical_source": "Solar + Battery",
+            "end_datetime": (start + timedelta(hours=b["duration_hours"])).isoformat() if b["status"] == "COMPLETED" else None,
+            "lpg_consumption_kg": round(b["duration_hours"] * 0.92, 2) if b["duration_hours"] else None,
+            "electrical_energy_kwh": round(b["duration_hours"] * 0.11, 2) if b["duration_hours"] else None,
+            "events": events,
             "created_at": start.isoformat(),
         })
     await db.batches.insert_many(docs)
@@ -161,6 +198,8 @@ async def startup():
     await db.login_attempts.create_index("identifier")
     await seed_admin()
     await seed_batches()
+    await db.batches.update_many({"status": "RUNNING"}, {"$set": {"status": "PROCESSING"}})
+    await db.batches.update_many({"status": "COMPLETE"}, {"$set": {"status": "COMPLETED"}})
 
 
 @api_router.get("/")
@@ -215,7 +254,7 @@ async def get_telemetry():
     weight = 61.0 - (t % 7200) / 7200 * 18.0 + random.uniform(-0.15, 0.15)
     gas = 190 + 60 * math.sin(t / 30) + random.uniform(-12, 12)
     progress = ((t % 7200) / 7200) * 100
-    active = await db.batches.find_one({"status": "RUNNING"}, {"_id": 0})
+    active = await db.batches.find_one({"status": {"$in": ["PROCESSING", "RUNNING"]}}, {"_id": 0})
     if progress < 15:
         stage = "Pre-heating"
     elif progress < 45:
@@ -276,6 +315,7 @@ async def create_batch(payload: BatchCreate, user: dict = Depends(get_current_us
     existing = await db.batches.find_one({"batch_id": batch_id})
     if existing:
         raise HTTPException(status_code=409, detail=f"Batch {batch_id} already exists")
+    now_iso = datetime.now(timezone.utc).isoformat()
     doc = Batch(
         batch_id=batch_id,
         product=payload.product,
@@ -283,9 +323,14 @@ async def create_batch(payload: BatchCreate, user: dict = Depends(get_current_us
         tray_quantity=payload.tray_quantity,
         operator=payload.operator,
         drying_method=payload.drying_method,
-        start_datetime=payload.start_datetime or datetime.now(timezone.utc).isoformat(),
-        status="RUNNING",
-        traceability_status="QR Issued",
+        start_datetime=payload.start_datetime or now_iso,
+        status="PLANNED",
+        traceability_status="QR Pending",
+        raw_material_source=payload.raw_material_source,
+        thermal_source=payload.thermal_source,
+        electrical_source=payload.electrical_source,
+        notes=payload.notes,
+        events=[{"timestamp": now_iso, "event_type": "Batch created", "description": f"Batch {batch_id} registered — {payload.product}, {payload.starting_weight_kg} kg"}],
     ).model_dump()
     await db.batches.insert_one(doc)
     doc.pop("_id", None)
@@ -306,6 +351,69 @@ async def update_batch(batch_id: str, payload: BatchUpdate, user: dict = Depends
     if not updates:
         raise HTTPException(status_code=400, detail="No fields to update")
     result = await db.batches.update_one({"batch_id": batch_id}, {"$set": updates})
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Batch not found")
+    return await db.batches.find_one({"batch_id": batch_id}, {"_id": 0})
+
+
+VALID_STATUSES = {"PLANNED", "PROCESSING", "PAUSED", "COMPLETED"}
+
+
+@api_router.post("/batches/{batch_id}/status", response_model=Batch)
+async def set_batch_status(batch_id: str, payload: StatusUpdate, user: dict = Depends(get_current_user)):
+    new_status = payload.status.upper()
+    if new_status not in VALID_STATUSES:
+        raise HTTPException(status_code=400, detail="Invalid status")
+    doc = await db.batches.find_one({"batch_id": batch_id})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Batch not found")
+    now = datetime.now(timezone.utc)
+    now_iso = now.isoformat()
+    updates = {"status": new_status}
+    event = None
+    if new_status == "PROCESSING":
+        resumed = doc.get("status") == "PAUSED"
+        if doc.get("status") == "PLANNED":
+            updates["start_datetime"] = now_iso
+        event = {"timestamp": now_iso, "event_type": "Batch resumed" if resumed else "Batch started", "description": "Drying cycle " + ("resumed" if resumed else "started") + " (simulated process)"}
+    elif new_status == "PAUSED":
+        event = {"timestamp": now_iso, "event_type": "Batch paused", "description": "Drying cycle paused by operator"}
+    elif new_status == "COMPLETED":
+        try:
+            start_dt = datetime.fromisoformat(doc["start_datetime"]) if doc.get("start_datetime") else now
+        except ValueError:
+            start_dt = now
+        duration = max(round((now - start_dt).total_seconds() / 3600, 2), 0.1)
+        final_weight = payload.final_weight_kg or round(doc["starting_weight_kg"] * 0.32, 1)
+        points = 24
+        temp_hist = []
+        weight_hist = []
+        for i in range(points):
+            frac = i / (points - 1)
+            temp_hist.append({"t": f"{frac * duration:.1f}h", "value": round(30 + 32 * (1 - math.exp(-3 * frac)) + random.uniform(-0.8, 0.8), 1)})
+            weight_hist.append({"t": f"{frac * duration:.1f}h", "value": round(doc["starting_weight_kg"] - (doc["starting_weight_kg"] - final_weight) * frac + random.uniform(-0.2, 0.2), 2)})
+        updates.update({
+            "end_datetime": now_iso,
+            "duration_hours": duration,
+            "final_weight_kg": final_weight,
+            "lpg_consumption_kg": round(duration * 0.92, 2),
+            "electrical_energy_kwh": round(duration * 0.11, 2),
+            "temperature_history": temp_hist,
+            "weight_history": weight_hist,
+            "traceability_status": "QR Issued",
+        })
+        event = {"timestamp": now_iso, "event_type": "Batch completed", "description": f"Drying completed — final weight {final_weight} kg (simulated values)"}
+    if event:
+        await db.batches.update_one({"batch_id": batch_id}, {"$set": updates, "$push": {"events": event}})
+    else:
+        await db.batches.update_one({"batch_id": batch_id}, {"$set": updates})
+    return await db.batches.find_one({"batch_id": batch_id}, {"_id": 0})
+
+
+@api_router.post("/batches/{batch_id}/events", response_model=Batch)
+async def add_batch_event(batch_id: str, payload: EventCreate, user: dict = Depends(get_current_user)):
+    event = {"timestamp": datetime.now(timezone.utc).isoformat(), "event_type": payload.event_type, "description": payload.description}
+    result = await db.batches.update_one({"batch_id": batch_id}, {"$push": {"events": event}})
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Batch not found")
     return await db.batches.find_one({"batch_id": batch_id}, {"_id": 0})

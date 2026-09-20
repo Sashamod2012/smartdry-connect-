@@ -71,14 +71,14 @@ export default function LiveMonitor() {
 
   const stage = STAGES.find((s) => progress <= s.to) || STAGES[STAGES.length - 1];
   const fmt = (s) => `${String(Math.floor(s / 3600)).padStart(2, "0")}:${String(Math.floor((s % 3600) / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
-  const statusColors = { RUNNING: "text-emerald-400", PAUSED: "text-amber-400", IDLE: "text-slate-400", COMPLETE: "text-sky-400" };
+  const statusColors = { RUNNING: "text-emerald-600", PAUSED: "text-amber-600", IDLE: "text-slate-500", COMPLETE: "text-sky-600" };
 
   return (
     <div className="space-y-6 fade-up" data-testid="live-monitor-page">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-white">Live Drying Monitor</h1>
-          <p className="text-sm text-slate-400 mt-1.5">SCADA-style process view · batch <span className="font-mono text-sky-400">SDC-2026-090</span> (simulated)</p>
+          <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">Live Drying Monitor</h1>
+          <p className="text-sm text-slate-500 mt-1.5">SCADA-style process view · batch <span className="font-mono text-sky-600">SDC-2026-090</span> (simulated)</p>
         </div>
         <div className="flex items-center gap-2">
           <button data-testid="start-drying-button" onClick={start} disabled={status === "RUNNING"}
@@ -103,9 +103,9 @@ export default function LiveMonitor() {
             <span data-testid="process-status" className={`font-mono font-bold tracking-widest text-sm ${statusColors[status]}`}>{status}</span>
             <span className="text-[11px] font-mono text-slate-500">Stage: {status === "IDLE" ? "—" : stage.name}</span>
           </div>
-          <span data-testid="drying-elapsed" className="font-mono text-sm text-slate-300">Elapsed {fmt(elapsed)}</span>
+          <span data-testid="drying-elapsed" className="font-mono text-sm text-slate-600">Elapsed {fmt(elapsed)}</span>
         </div>
-        <div className="h-3 rounded-full bg-[#0d1322] border border-white/[0.06] overflow-hidden">
+        <div className="h-3 rounded-full bg-[#f1f5f9] border border-slate-200 overflow-hidden">
           <div data-testid="drying-progress-bar" className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full transition-[width] duration-700"
             style={{ width: `${progress}%` }} />
         </div>
@@ -115,7 +115,7 @@ export default function LiveMonitor() {
             const activeStage = progress > prev && progress <= s.to && status !== "IDLE";
             const done = progress > s.to;
             return (
-              <div key={s.name} className={`text-center text-[9px] sm:text-[10px] font-mono uppercase tracking-wide py-1.5 rounded ${activeStage ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30" : done ? "text-emerald-600" : "text-slate-600"}`}>
+              <div key={s.name} className={`text-center text-[9px] sm:text-[10px] font-mono uppercase tracking-wide py-1.5 rounded ${activeStage ? "bg-emerald-500/15 text-emerald-600 border border-emerald-500/30" : done ? "text-emerald-600" : "text-slate-600"}`}>
                 {s.name}
               </div>
             );
@@ -133,7 +133,7 @@ export default function LiveMonitor() {
         <div className="sd-card p-5 lg:col-span-2" data-testid="telemetry-chart-card">
           <div className="flex items-center justify-between mb-4">
             <span className="sd-label">Telemetry — Temperature / Humidity / Weight</span>
-            <span className="flex items-center gap-1.5 text-[10px] font-mono text-emerald-400">
+            <span className="flex items-center gap-1.5 text-[10px] font-mono text-emerald-600">
               <span className={`w-1.5 h-1.5 rounded-full ${status === "RUNNING" ? "bg-emerald-400 led-pulse" : "bg-slate-600"}`} />
               {status === "RUNNING" ? "LIVE (SIMULATED)" : "STANDBY"}
             </span>
@@ -141,10 +141,10 @@ export default function LiveMonitor() {
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={history} margin={{ top: 4, right: 8, left: -14, bottom: 0 }}>
-                <CartesianGrid stroke="#1F2937" strokeDasharray="3 3" />
-                <XAxis dataKey="t" stroke="#4B5563" tick={{ fontSize: 10, fontFamily: "JetBrains Mono" }} />
-                <YAxis stroke="#4B5563" tick={{ fontSize: 10, fontFamily: "JetBrains Mono" }} />
-                <Tooltip contentStyle={{ background: "#0D1322", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, fontSize: 12, fontFamily: "JetBrains Mono" }} />
+                <CartesianGrid stroke="#e2e8f0" strokeDasharray="3 3" />
+                <XAxis dataKey="t" stroke="#94a3b8" tick={{ fontSize: 10, fontFamily: "JetBrains Mono" }} />
+                <YAxis stroke="#94a3b8" tick={{ fontSize: 10, fontFamily: "JetBrains Mono" }} />
+                <Tooltip contentStyle={{ background: "#f1f5f9", border: "1px solid rgba(15,23,42,0.12)", borderRadius: 8, fontSize: 12, fontFamily: "JetBrains Mono" }} />
                 <Legend wrapperStyle={{ fontSize: 11, fontFamily: "JetBrains Mono" }} />
                 <Line type="monotone" dataKey="temp" name="Temp °C" stroke="#10B981" strokeWidth={2} dot={false} isAnimationActive={false} />
                 <Line type="monotone" dataKey="humidity" name="RH %" stroke="#38BDF8" strokeWidth={2} dot={false} isAnimationActive={false} />
@@ -165,22 +165,22 @@ export default function LiveMonitor() {
               { icon: Flame, label: "LPG Valve Solenoid", value: status === "RUNNING" ? "OPEN" : "CLOSED", on: status === "RUNNING" },
               { icon: Scale, label: "Tray Load Balancer", value: status === "RUNNING" ? "BALANCED" : "STANDBY", on: status === "RUNNING" },
             ].map((p) => (
-              <div key={p.label} className="flex items-center justify-between rounded-lg bg-[#0d1322] border border-white/[0.06] p-3">
+              <div key={p.label} className="flex items-center justify-between rounded-lg bg-[#f1f5f9] border border-slate-200 p-3">
                 <div className="flex items-center gap-2.5">
-                  <p.icon className={`w-4 h-4 ${p.on ? "text-emerald-400" : "text-slate-600"}`} />
-                  <span className="text-xs text-slate-300">{p.label}</span>
+                  <p.icon className={`w-4 h-4 ${p.on ? "text-emerald-600" : "text-slate-600"}`} />
+                  <span className="text-xs text-slate-600">{p.label}</span>
                 </div>
-                <span className={`text-xs font-mono font-bold ${p.on ? "text-emerald-400" : "text-slate-500"}`}>{p.value}</span>
+                <span className={`text-xs font-mono font-bold ${p.on ? "text-emerald-600" : "text-slate-500"}`}>{p.value}</span>
               </div>
             ))}
           </div>
-          <div className="mt-4 rounded-lg bg-[#0d1322] border border-white/[0.06] p-3">
+          <div className="mt-4 rounded-lg bg-[#f1f5f9] border border-slate-200 p-3">
             <div className="sd-label mb-2">Current Reading</div>
             <div className="grid grid-cols-2 gap-2 text-xs font-mono">
-              <div className="text-slate-500">Weight</div><div data-testid="monitor-weight" className="text-right text-amber-400 font-bold">{tele.weight.toFixed(1)} kg</div>
-              <div className="text-slate-500">Gas</div><div data-testid="monitor-gas" className="text-right text-emerald-400 font-bold">{Math.round(tele.gas)} PPM · SAFE</div>
-              <div className="text-slate-500">Setpoint</div><div className="text-right text-slate-300">62 °C</div>
-              <div className="text-slate-500">Heat source</div><div className="text-right text-slate-300">LPG hot-air</div>
+              <div className="text-slate-500">Weight</div><div data-testid="monitor-weight" className="text-right text-amber-600 font-bold">{tele.weight.toFixed(1)} kg</div>
+              <div className="text-slate-500">Gas</div><div data-testid="monitor-gas" className="text-right text-emerald-600 font-bold">{Math.round(tele.gas)} PPM · SAFE</div>
+              <div className="text-slate-500">Setpoint</div><div className="text-right text-slate-600">62 °C</div>
+              <div className="text-slate-500">Heat source</div><div className="text-right text-slate-600">LPG hot-air</div>
             </div>
           </div>
           <p className="mt-4 text-[10px] font-mono text-slate-600 leading-relaxed">

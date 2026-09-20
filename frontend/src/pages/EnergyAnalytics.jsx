@@ -16,34 +16,34 @@ export default function EnergyAnalytics() {
   return (
     <div className="space-y-6 fade-up" data-testid="energy-analytics-page">
       <div>
-        <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-white">Energy & Performance</h1>
-        <p className="text-sm text-slate-400 mt-1.5 max-w-3xl">
+        <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">Energy & Performance</h1>
+        <p className="text-sm text-slate-500 mt-1.5 max-w-3xl">
           Analytics framework designed for controlled pilot validation. All figures below are illustrative simulated values —
           no measured energy savings or performance claims are made at this stage.
         </p>
       </div>
 
       <div className="rounded-xl border border-amber-500/40 bg-amber-500/[0.07] px-4 py-3 flex items-start gap-3" data-testid="energy-disclaimer">
-        <FlaskConical className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
-        <p className="text-xs text-amber-200/90 leading-relaxed font-mono">
+        <FlaskConical className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+        <p className="text-xs text-amber-800 leading-relaxed font-mono">
           SIMULATED / DEMO DATA — NOT PILOT RESULTS. This dashboard demonstrates the analytics capability.
           Real LPG, solar, yield and cost performance will be measured during the controlled pilot programme.
         </p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-        <StatCard testId="kpi-lpg" icon={Flame} label="LPG Consumed" value={d ? d.lpg_consumed_kg : "—"} unit="kg" sub={`${d?.batches_completed ?? "—"} demo batches`} accent="text-amber-400" />
-        <StatCard testId="kpi-battery" icon={BatteryCharging} label="Battery Energy" value={d ? d.battery_energy_kwh : "—"} unit="kWh" sub="Controls & sensors" accent="text-emerald-400" />
-        <StatCard testId="kpi-solar" icon={Sun} label="Solar Contribution" value={d ? d.solar_contribution_kwh : "—"} unit="kWh" sub="PV array (demo model)" accent="text-sky-400" />
-        <StatCard testId="kpi-duration" icon={Timer} label="Drying Duration" value={d ? d.total_drying_hours : "—"} unit="h total" sub={`Avg ${d && d.batches_completed ? (d.total_drying_hours / d.batches_completed).toFixed(1) : "—"} h/batch`} accent="text-slate-200" />
-        <StatCard testId="kpi-yield" icon={TrendingDown} label="Product Yield" value={d ? `${d.product_yield_pct}%` : "—"} sub={`${d?.starting_weight_kg ?? "—"} → ${d?.final_weight_kg ?? "—"} kg`} accent="text-emerald-400" />
+        <StatCard testId="kpi-lpg" icon={Flame} label="LPG Consumed" value={d ? d.lpg_consumed_kg : "—"} unit="kg" sub={`${d?.batches_completed ?? "—"} demo batches`} accent="text-amber-600" />
+        <StatCard testId="kpi-battery" icon={BatteryCharging} label="Battery Energy" value={d ? d.battery_energy_kwh : "—"} unit="kWh" sub="Controls & sensors" accent="text-emerald-600" />
+        <StatCard testId="kpi-solar" icon={Sun} label="Solar Contribution" value={d ? d.solar_contribution_kwh : "—"} unit="kWh" sub="PV array (demo model)" accent="text-sky-600" />
+        <StatCard testId="kpi-duration" icon={Timer} label="Drying Duration" value={d ? d.total_drying_hours : "—"} unit="h total" sub={`Avg ${d && d.batches_completed ? (d.total_drying_hours / d.batches_completed).toFixed(1) : "—"} h/batch`} accent="text-slate-700" />
+        <StatCard testId="kpi-yield" icon={TrendingDown} label="Product Yield" value={d ? `${d.product_yield_pct}%` : "—"} sub={`${d?.starting_weight_kg ?? "—"} → ${d?.final_weight_kg ?? "—"} kg`} accent="text-emerald-600" />
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard testId="kpi-start-weight" icon={Scale} label="Starting Weight" value={d ? d.starting_weight_kg : "—"} unit="kg" accent="text-slate-200" />
-        <StatCard testId="kpi-final-weight" icon={Scale} label="Final Weight" value={d ? d.final_weight_kg : "—"} unit="kg" accent="text-slate-200" />
-        <StatCard testId="kpi-energy-per-kg" icon={Zap} label="Energy per kg" value={d ? d.energy_per_kg_kwh : "—"} unit="kWh-eq/kg" sub="Simulated model" accent="text-sky-400" />
-        <StatCard testId="kpi-cost-per-kg" icon={Coins} label="Energy Cost per kg" value={d ? `$${d.cost_per_kg}` : "—"} sub={`Cost/batch $${d?.cost_per_batch ?? "—"} (demo)`} accent="text-amber-400" />
+        <StatCard testId="kpi-start-weight" icon={Scale} label="Starting Weight" value={d ? d.starting_weight_kg : "—"} unit="kg" accent="text-slate-700" />
+        <StatCard testId="kpi-final-weight" icon={Scale} label="Final Weight" value={d ? d.final_weight_kg : "—"} unit="kg" accent="text-slate-700" />
+        <StatCard testId="kpi-energy-per-kg" icon={Zap} label="Energy per kg" value={d ? d.energy_per_kg_kwh : "—"} unit="kWh-eq/kg" sub="Simulated model" accent="text-sky-600" />
+        <StatCard testId="kpi-cost-per-kg" icon={Coins} label="Energy Cost per kg" value={d ? `$${d.cost_per_kg}` : "—"} sub={`Cost/batch $${d?.cost_per_batch ?? "—"} (demo)`} accent="text-amber-600" />
       </div>
 
       <div className="grid lg:grid-cols-5 gap-4">
@@ -55,7 +55,7 @@ export default function EnergyAnalytics() {
                 <Pie data={d?.energy_split || []} dataKey="value" nameKey="name" innerRadius={55} outerRadius={85} paddingAngle={3} stroke="none">
                   {(d?.energy_split || []).map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
                 </Pie>
-                <Tooltip contentStyle={{ background: "#0D1322", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, fontSize: 12, fontFamily: "JetBrains Mono" }} />
+                <Tooltip contentStyle={{ background: "#f1f5f9", border: "1px solid rgba(15,23,42,0.12)", borderRadius: 8, fontSize: 12, fontFamily: "JetBrains Mono" }} />
                 <Legend wrapperStyle={{ fontSize: 11, fontFamily: "JetBrains Mono" }} />
               </PieChart>
             </ResponsiveContainer>
@@ -66,12 +66,12 @@ export default function EnergyAnalytics() {
         <div className="sd-card p-5 lg:col-span-3" data-testid="comparison-panel">
           <div className="flex items-center justify-between mb-4">
             <span className="sd-label">Comparison Model — Existing Practice vs SmartDry System</span>
-            <span className="text-[9px] font-mono px-2 py-1 rounded bg-amber-500/10 text-amber-400 border border-amber-500/30">SIMULATED COMPARISON</span>
+            <span className="text-[9px] font-mono px-2 py-1 rounded bg-amber-500/10 text-amber-600 border border-amber-500/30">SIMULATED COMPARISON</span>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-xs" data-testid="comparison-table">
               <thead>
-                <tr className="border-b border-white/[0.07] text-left">
+                <tr className="border-b border-slate-200 text-left">
                   <th className="py-2.5 pr-3 sd-label">Metric</th>
                   <th className="py-2.5 pr-3 sd-label">Existing Equipment / Practice</th>
                   <th className="py-2.5 pr-3 sd-label">SmartDry System</th>
@@ -81,9 +81,9 @@ export default function EnergyAnalytics() {
               <tbody>
                 {(d?.comparison || []).map((row) => (
                   <tr key={row.metric} className="border-b border-white/[0.04]">
-                    <td className="py-2.5 pr-3 text-slate-200 font-medium">{row.metric}</td>
-                    <td className="py-2.5 pr-3 text-slate-400">{row.existing}</td>
-                    <td className="py-2.5 pr-3 text-emerald-400 font-mono">{row.smartdry}</td>
+                    <td className="py-2.5 pr-3 text-slate-700 font-medium">{row.metric}</td>
+                    <td className="py-2.5 pr-3 text-slate-500">{row.existing}</td>
+                    <td className="py-2.5 pr-3 text-emerald-600 font-mono">{row.smartdry}</td>
                     <td className="py-2.5 text-slate-500 font-mono text-[10px]">{row.note}</td>
                   </tr>
                 ))}

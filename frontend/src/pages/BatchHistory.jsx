@@ -1,13 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { QrCode, Search } from "lucide-react";
+import { QrCode, Search, FileText } from "lucide-react";
 import { getBatches } from "@/lib/api";
 
 const badge = {
-  COMPLETE: "bg-sky-500/15 text-sky-400 border-sky-500/40",
-  RUNNING: "bg-emerald-500/15 text-emerald-400 border-emerald-500/40",
-  PAUSED: "bg-amber-500/15 text-amber-400 border-amber-500/40",
-  ABORTED: "bg-red-500/15 text-red-400 border-red-500/40",
+  COMPLETED: "bg-emerald-50 text-emerald-700 border-emerald-300",
+  PROCESSING: "bg-sky-50 text-sky-700 border-sky-300",
+  PAUSED: "bg-amber-50 text-amber-700 border-amber-300",
+  PLANNED: "bg-slate-100 text-slate-600 border-slate-300",
+  COMPLETE: "bg-emerald-50 text-emerald-700 border-emerald-300",
+  RUNNING: "bg-sky-50 text-sky-700 border-sky-300",
 };
 
 export default function BatchHistory() {
@@ -30,8 +32,8 @@ export default function BatchHistory() {
     <div className="space-y-6 fade-up" data-testid="batch-history-page">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-white">Batch History</h1>
-          <p className="text-sm text-slate-400 mt-1.5">Historical drying records with traceability status. Demo dataset stored in the platform database.</p>
+          <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">Batch History</h1>
+          <p className="text-sm text-slate-500 mt-1.5">Historical drying records with traceability status. Demo dataset stored in the platform database.</p>
         </div>
         <div className="flex gap-2">
           <div className="relative">
@@ -48,7 +50,7 @@ export default function BatchHistory() {
         <div className="overflow-x-auto">
           <table data-testid="batch-history-table" className="w-full text-sm">
             <thead>
-              <tr className="border-b border-white/[0.07] text-left">
+              <tr className="border-b border-slate-200 text-left">
                 {["Batch ID", "Product", "Start Wt", "Final Wt", "Duration", "Status", "Date", "Traceability", ""].map((h) => (
                   <th key={h} className="px-4 py-3 sd-label whitespace-nowrap">{h}</th>
                 ))}
@@ -56,24 +58,30 @@ export default function BatchHistory() {
             </thead>
             <tbody>
               {filtered.map((b) => (
-                <tr key={b.batch_id} data-testid={`batch-row-${b.batch_id}`} className="border-b border-white/[0.04] hover:bg-white/[0.03] transition-colors">
-                  <td className="px-4 py-3 font-mono font-semibold text-sky-400 whitespace-nowrap">{b.batch_id}</td>
-                  <td className="px-4 py-3 text-slate-200">{b.product}</td>
-                  <td className="px-4 py-3 font-mono text-slate-300">{b.starting_weight_kg} kg</td>
-                  <td className="px-4 py-3 font-mono text-slate-300">{b.final_weight_kg != null ? `${b.final_weight_kg} kg` : "—"}</td>
-                  <td className="px-4 py-3 font-mono text-slate-300">{b.duration_hours != null ? `${b.duration_hours} h` : "In progress"}</td>
+                <tr key={b.batch_id} data-testid={`batch-row-${b.batch_id}`} className="border-b border-white/[0.04] hover:bg-slate-50 transition-colors">
+                  <td className="px-4 py-3 font-mono font-semibold text-sky-600 whitespace-nowrap">{b.batch_id}</td>
+                  <td className="px-4 py-3 text-slate-700">{b.product}</td>
+                  <td className="px-4 py-3 font-mono text-slate-600">{b.starting_weight_kg} kg</td>
+                  <td className="px-4 py-3 font-mono text-slate-600">{b.final_weight_kg != null ? `${b.final_weight_kg} kg` : "—"}</td>
+                  <td className="px-4 py-3 font-mono text-slate-600">{b.duration_hours != null ? `${b.duration_hours} h` : "In progress"}</td>
                   <td className="px-4 py-3">
-                    <span className={`px-2 py-0.5 rounded-full border text-[10px] font-mono font-bold tracking-wider ${badge[b.status] || badge.RUNNING}`}>{b.status}</span>
+                    <span className={`px-2 py-0.5 rounded-full border text-[10px] font-mono font-bold tracking-wider ${badge[b.status] || badge.PROCESSING}`}>{b.status}</span>
                   </td>
-                  <td className="px-4 py-3 font-mono text-xs text-slate-400 whitespace-nowrap">{new Date(b.start_datetime).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}</td>
+                  <td className="px-4 py-3 font-mono text-xs text-slate-500 whitespace-nowrap">{new Date(b.start_datetime).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}</td>
                   <td className="px-4 py-3">
-                    <span className={`text-[10px] font-mono font-bold ${b.traceability_status === "QR Issued" ? "text-emerald-400" : "text-amber-400"}`}>{b.traceability_status}</span>
+                    <span className={`text-[10px] font-mono font-bold ${b.traceability_status === "QR Issued" ? "text-emerald-600" : "text-amber-600"}`}>{b.traceability_status}</span>
                   </td>
                   <td className="px-4 py-3">
-                    <Link to={`/trace/${b.batch_id}`} data-testid={`view-qr-${b.batch_id}`}
-                      className="flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-emerald-400 transition-colors">
-                      <QrCode className="w-3.5 h-3.5" /> QR
-                    </Link>
+                    <div className="flex items-center gap-3">
+                      <Link to={`/batches/${b.batch_id}`} data-testid={`open-batch-${b.batch_id}`}
+                        className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-emerald-600 transition-colors">
+                        <FileText className="w-3.5 h-3.5" /> Open
+                      </Link>
+                      <Link to={`/trace/${b.batch_id}`} data-testid={`view-qr-${b.batch_id}`}
+                        className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-emerald-600 transition-colors">
+                        <QrCode className="w-3.5 h-3.5" /> QR
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ))}

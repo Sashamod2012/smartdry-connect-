@@ -40,8 +40,8 @@ export default function Traceability() {
   return (
     <div className="space-y-6 fade-up" data-testid="traceability-page">
       <div>
-        <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-white">QR Traceability</h1>
-        <p className="text-sm text-slate-400 mt-1.5 max-w-3xl">
+        <h1 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">QR Traceability</h1>
+        <p className="text-sm text-slate-500 mt-1.5 max-w-3xl">
           Every batch receives a unique, scannable QR passport linking to its digital provenance record.
           Prototype/demo traceability system — pending connection to the production database.
         </p>
@@ -63,7 +63,7 @@ export default function Traceability() {
                 </div>
               </div>
               <div className="text-center mt-4">
-                <div className="font-mono font-bold text-sky-400">{selected.batch_id}</div>
+                <div className="font-mono font-bold text-sky-600">{selected.batch_id}</div>
                 <div className="text-[10px] font-mono text-slate-500 mt-1 break-all">{traceUrl(selected.batch_id)}</div>
               </div>
               <div className="flex gap-2 mt-5">
@@ -72,7 +72,7 @@ export default function Traceability() {
                   <Download className="w-3.5 h-3.5" /> Download QR (PNG)
                 </button>
                 <Link to={`/trace/${selected.batch_id}`} data-testid="open-passport-btn"
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-white/15 hover:border-sky-500/50 hover:text-sky-400 text-slate-300 text-xs font-semibold transition-colors">
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-slate-300 hover:border-sky-500/50 hover:text-sky-600 text-slate-600 text-xs font-semibold transition-colors">
                   <QrIcon className="w-3.5 h-3.5" /> Open Passport
                 </Link>
               </div>
@@ -82,25 +82,25 @@ export default function Traceability() {
 
         <div className="sd-card p-5 lg:col-span-3" data-testid="trace-record-preview">
           <div className="flex items-center gap-2 mb-4">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            <ShieldCheck className="w-4 h-4 text-emerald-600" />
             <span className="sd-label">Traceability Record Preview</span>
           </div>
           {selected ? (
             <div className="grid sm:grid-cols-2 gap-4 text-sm">
-              <div><div className="sd-label">Product</div><div className="text-slate-100 mt-1 font-semibold">{selected.product}</div></div>
-              <div><div className="sd-label">Batch ID</div><div className="font-mono text-sky-400 mt-1 font-bold">{selected.batch_id}</div></div>
-              <div><div className="sd-label">Processing Date</div><div className="font-mono text-slate-300 mt-1">{new Date(selected.start_datetime).toLocaleString("en-GB")}</div></div>
-              <div><div className="sd-label">Processing Status</div><div className="font-mono text-emerald-400 mt-1">{selected.status}</div></div>
-              <div><div className="sd-label">Starting Weight</div><div className="font-mono text-slate-300 mt-1">{selected.starting_weight_kg} kg</div></div>
-              <div><div className="sd-label">Final Weight</div><div className="font-mono text-slate-300 mt-1">{selected.final_weight_kg != null ? `${selected.final_weight_kg} kg` : "In progress"}</div></div>
-              <div><div className="sd-label">Drying Duration</div><div className="font-mono text-slate-300 mt-1">{selected.duration_hours != null ? `${selected.duration_hours} h` : "In progress"}</div></div>
-              <div><div className="sd-label">Traceability</div><div className="font-mono text-emerald-400 mt-1">{selected.traceability_status}</div></div>
-              <div className="sm:col-span-2"><div className="sd-label">Drying Method</div><div className="text-slate-300 mt-1">{selected.drying_method}</div></div>
+              <div><div className="sd-label">Product</div><div className="text-slate-800 mt-1 font-semibold">{selected.product}</div></div>
+              <div><div className="sd-label">Batch ID</div><div className="font-mono text-sky-600 mt-1 font-bold">{selected.batch_id}</div></div>
+              <div><div className="sd-label">Processing Date</div><div className="font-mono text-slate-600 mt-1">{new Date(selected.start_datetime).toLocaleString("en-GB")}</div></div>
+              <div><div className="sd-label">Processing Status</div><div className="font-mono text-emerald-600 mt-1">{selected.status}</div></div>
+              <div><div className="sd-label">Starting Weight</div><div className="font-mono text-slate-600 mt-1">{selected.starting_weight_kg} kg</div></div>
+              <div><div className="sd-label">Final Weight</div><div className="font-mono text-slate-600 mt-1">{selected.final_weight_kg != null ? `${selected.final_weight_kg} kg` : "In progress"}</div></div>
+              <div><div className="sd-label">Drying Duration</div><div className="font-mono text-slate-600 mt-1">{selected.duration_hours != null ? `${selected.duration_hours} h` : "In progress"}</div></div>
+              <div><div className="sd-label">Traceability</div><div className="font-mono text-emerald-600 mt-1">{selected.traceability_status}</div></div>
+              <div className="sm:col-span-2"><div className="sd-label">Drying Method</div><div className="text-slate-600 mt-1">{selected.drying_method}</div></div>
             </div>
           ) : (
             <div className="text-sm font-mono text-slate-500">Loading batches…</div>
           )}
-          <p className="mt-5 text-[10px] font-mono text-slate-600 leading-relaxed border-t border-white/[0.06] pt-4">
+          <p className="mt-5 text-[10px] font-mono text-slate-600 leading-relaxed border-t border-slate-200 pt-4">
             Prototype/demo traceability system. Records will sync with the real SmartDry production database when the
             physical dryer fleet comes online.
           </p>
@@ -113,12 +113,12 @@ export default function Traceability() {
           {batches.map((b) => (
             <button key={b.batch_id} data-testid={`qr-card-${b.batch_id}`} onClick={() => setSelected(b)}
               className={`rounded-xl border p-3 text-left transition-[border-color,transform] duration-150 hover:-translate-y-0.5 ${
-                selected?.batch_id === b.batch_id ? "border-emerald-500/50 bg-emerald-600/[0.08]" : "border-white/[0.08] bg-[#0d1322] hover:border-emerald-500/30"
+                selected?.batch_id === b.batch_id ? "border-emerald-500/50 bg-emerald-600/[0.08]" : "border-slate-200 bg-[#f1f5f9] hover:border-emerald-500/30"
               }`}>
               <div className="bg-white rounded-md p-1.5 flex justify-center">
                 <QRCode value={traceUrl(b.batch_id)} size={72} />
               </div>
-              <div className="mt-2 font-mono text-[11px] font-bold text-sky-400">{b.batch_id}</div>
+              <div className="mt-2 font-mono text-[11px] font-bold text-sky-600">{b.batch_id}</div>
               <div className="text-[10px] text-slate-500">{b.product} · {b.status}</div>
             </button>
           ))}

@@ -14,7 +14,7 @@ export const Gauge = ({ value, min, max, label, unit, warnAt, critAt, color = "#
   return (
     <div data-testid={testId} className="flex flex-col items-center">
       <svg viewBox="0 0 180 130" className="w-full max-w-[190px]">
-        <path d={arc(-120, 120)} fill="none" stroke="#1F2937" strokeWidth="10" strokeLinecap="round" />
+        <path d={arc(-120, 120)} fill="none" stroke="#e2e8f0" strokeWidth="10" strokeLinecap="round" />
         {pct > 0.005 && (
           <path d={arc(-120, angle)} fill="none" stroke={level} strokeWidth="10" strokeLinecap="round"
             style={{ transition: "stroke 0.4s" }} />
@@ -27,7 +27,7 @@ export const Gauge = ({ value, min, max, label, unit, warnAt, critAt, color = "#
         )}
         <line x1={C} y1={C} x2={nx} y2={ny} stroke={level} strokeWidth="2.5" strokeLinecap="round"
           style={{ transition: "all 0.6s ease" }} />
-        <circle cx={C} cy={C} r="5" fill="#0D1322" stroke={level} strokeWidth="2" />
+        <circle cx={C} cy={C} r="5" fill="#f1f5f9" stroke={level} strokeWidth="2" />
         <text x={C} y={C - 22} textAnchor="middle" fill={level} fontSize="22" fontWeight="800" fontFamily="JetBrains Mono, monospace"
           style={{ transition: "fill 0.4s" }}>
           {typeof value === "number" ? value.toFixed(value < 10 ? 1 : 0) : value}

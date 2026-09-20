@@ -9,8 +9,8 @@ body {
     font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #090d16;
-    color: #f9fafb;
+    background-color: #f4f6f8;
+    color: #1e293b;
 }
 
 code, .font-mono {
@@ -19,25 +19,25 @@ code, .font-mono {
 
 @layer base {
     :root {
-        --background: 222 47% 6%;
-        --foreground: 210 40% 98%;
-        --card: 222 40% 9%;
-        --card-foreground: 210 40% 98%;
-        --popover: 222 40% 9%;
-        --popover-foreground: 210 40% 98%;
+        --background: 210 20% 97%;
+        --foreground: 222 47% 11%;
+        --card: 0 0% 100%;
+        --card-foreground: 222 47% 11%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 222 47% 11%;
         --primary: 160 84% 30%;
         --primary-foreground: 0 0% 100%;
-        --secondary: 217 33% 17%;
-        --secondary-foreground: 210 40% 98%;
-        --muted: 217 33% 17%;
-        --muted-foreground: 215 20% 65%;
-        --accent: 217 33% 17%;
-        --accent-foreground: 210 40% 98%;
+        --secondary: 210 40% 96%;
+        --secondary-foreground: 222 47% 11%;
+        --muted: 210 40% 96%;
+        --muted-foreground: 215 16% 47%;
+        --accent: 210 40% 96%;
+        --accent-foreground: 222 47% 11%;
         --destructive: 0 84% 60%;
         --destructive-foreground: 0 0% 98%;
-        --border: 217 33% 18%;
-        --input: 217 33% 18%;
-        --ring: 160 84% 39%;
+        --border: 214 32% 91%;
+        --input: 214 32% 85%;
+        --ring: 160 84% 35%;
         --radius: 0.5rem;
     }
 }
@@ -53,16 +53,16 @@ code, .font-mono {
 
 @layer components {
     .sd-card {
-        @apply bg-[#111827] border border-white/[0.08] rounded-xl;
+        @apply bg-white border border-slate-200 rounded-xl shadow-sm;
     }
     .sd-card-hover {
-        @apply transition-[border-color,transform,box-shadow] duration-200 hover:border-emerald-500/40 hover:-translate-y-0.5;
+        @apply transition-[border-color,transform,box-shadow] duration-200 hover:border-emerald-500/50 hover:-translate-y-0.5 hover:shadow-md;
     }
     .sd-label {
-        @apply text-[11px] font-mono uppercase tracking-[0.18em] text-slate-400;
+        @apply text-[11px] font-mono uppercase tracking-[0.18em] text-slate-500;
     }
     .sd-input {
-        @apply w-full bg-[#0d1322] border border-white/10 rounded-lg px-3 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50;
+        @apply w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500/60;
     }
 }
 
@@ -71,10 +71,10 @@ code, .font-mono {
     height: 8px;
 }
 ::-webkit-scrollbar-track {
-    background: #0d1322;
+    background: #eef2f5;
 }
 ::-webkit-scrollbar-thumb {
-    background: #1f2937;
+    background: #cbd5e1;
     border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {

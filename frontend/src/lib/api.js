@@ -7,5 +7,7 @@ export const getBatches = () => axios.get(`${API}/batches`).then((r) => r.data);
 export const getBatch = (id) => axios.get(`${API}/batches/${id}`).then((r) => r.data);
 export const createBatch = (data) => axios.post(`${API}/batches`, data, { withCredentials: true }).then((r) => r.data);
 export const updateBatch = (id, data) => axios.patch(`${API}/batches/${id}`, data, { withCredentials: true }).then((r) => r.data);
+export const setBatchStatus = (id, data) => axios.post(`${API}/batches/${id}/status`, data, { withCredentials: true }).then((r) => r.data);
+export const addBatchEvent = (id, data) => axios.post(`${API}/batches/${id}/events`, data, { withCredentials: true }).then((r) => r.data);
 export const getEnergySummary = () => axios.get(`${API}/energy/summary`).then((r) => r.data);
 export const getSystemStatus = () => axios.get(`${API}/system/status`).then((r) => r.data);

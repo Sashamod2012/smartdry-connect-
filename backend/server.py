@@ -242,6 +242,9 @@ async def get_telemetry():
             "solar_w": int(240 + 90 * math.sin(t / 120)),
             "battery_pct": int(78 + 8 * math.sin(t / 200)),
             "control_bus": "12V DC (Solar/Battery)",
+            "grid_status": "OFF-GRID — NOT REQUIRED",
+            "solar_status": "GENERATING" if math.sin(t / 120) > -0.6 else "LOW INPUT",
+            "battery_status": "CHARGING" if math.sin(t / 200) > 0 else "DISCHARGING",
         },
         "connectivity": {
             "esp32": "CONNECTED",

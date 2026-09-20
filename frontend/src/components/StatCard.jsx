@@ -1,14 +1,19 @@
 export const StatCard = ({ icon: Icon, label, value, unit, sub, accent = "text-emerald-400", testId }) => (
-  <div data-testid={testId} className="sd-card sd-card-hover p-4 sm:p-5">
+  <div data-testid={testId} className="sd-card sd-card-hover p-5 relative overflow-hidden">
+    <div className={`absolute top-0 left-0 right-0 h-[2px] opacity-50 ${accent.replace("text-", "bg-")}`} />
     <div className="flex items-center justify-between">
       <span className="sd-label">{label}</span>
-      {Icon && <Icon className={`w-4 h-4 ${accent}`} />}
+      {Icon && (
+        <div className="w-7 h-7 rounded-md bg-white/[0.04] border border-white/[0.07] flex items-center justify-center">
+          <Icon className={`w-3.5 h-3.5 ${accent}`} />
+        </div>
+      )}
     </div>
-    <div className="mt-3 flex items-baseline gap-1.5">
-      <span className={`font-mono text-2xl lg:text-3xl font-extrabold tracking-tight ${accent}`}>{value}</span>
-      {unit && <span className="text-xs font-mono text-slate-500">{unit}</span>}
+    <div className="mt-3.5 flex items-baseline gap-1.5">
+      <span className={`font-mono text-2xl lg:text-[28px] font-extrabold tracking-tight ${accent}`}>{value}</span>
+      {unit && <span className="text-[11px] font-mono text-slate-500">{unit}</span>}
     </div>
-    {sub && <div className="mt-1.5 text-[11px] font-mono text-slate-500">{sub}</div>}
+    {sub && <div className="mt-1.5 text-[10px] font-mono text-slate-500 truncate">{sub}</div>}
   </div>
 );
 

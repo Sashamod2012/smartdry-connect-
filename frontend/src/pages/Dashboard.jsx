@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Thermometer, Droplets, Weight, Flame, Timer, Zap, Activity, ArrowRight,
-  Cpu, Cloud, MonitorSmartphone, Sun, BatteryCharging,
+  Cpu, Cloud, MonitorSmartphone, Sun, BatteryCharging, PlugZap,
 } from "lucide-react";
 import { getTelemetry } from "@/lib/api";
-import { StatCard, StatusLed } from "@/components/StatCard";
+import { StatusLed } from "@/components/StatCard";
 
 const statusStyle = {
   RUNNING: "bg-emerald-500/15 text-emerald-400 border-emerald-500/40",
@@ -47,37 +47,106 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="sd-card p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="sd-card px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-emerald-600/15 border border-emerald-500/30 flex items-center justify-center">
-            <Flame className="w-6 h-6 text-emerald-400" />
+          <div className="w-11 h-11 rounded-xl bg-emerald-600/15 border border-emerald-500/30 flex items-center justify-center">
+            <Flame className="w-5 h-5 text-emerald-400" />
           </div>
           <div>
             <div className="sd-label">Dryer Status</div>
             <div className="flex items-center gap-3 mt-1">
-              <span data-testid="dryer-status-badge" className={`px-3 py-1 rounded-full border text-sm font-mono font-bold tracking-wider ${statusStyle[t?.dryer_status] || statusStyle.IDLE}`}>
+              <span data-testid="dryer-status-badge" className={`px-3 py-1 rounded-full border text-xs font-mono font-bold tracking-wider ${statusStyle[t?.dryer_status] || statusStyle.IDLE}`}>
                 {t?.dryer_status || "—"}
               </span>
               <StatusLed level="ok" label={t ? `Stage: ${t.drying_stage}` : "Connecting…"} />
             </div>
           </div>
         </div>
-        <div className="text-right">
-          <div className="sd-label">Active Batch</div>
-          <div data-testid="active-batch-id" className="font-mono text-lg font-bold text-sky-400 mt-1">
-            {t?.active_batch?.batch_id || "SDC-2026-090"}
+        <div className="w-full sm:w-64">
+          <div className="flex justify-between text-[10px] font-mono text-slate-500 mb-1.5">
+            <span>CYCLE PROGRESS</span>
+            <span className="text-emerald-400 font-bold">{t?.progress_pct ?? 0}%</span>
           </div>
-          <div className="text-[11px] font-mono text-slate-500">{t?.active_batch?.product || "Vegetables"} · {t?.active_batch?.tray_quantity || 24} trays</div>
+          <div className="h-2 rounded-full bg-[#0d1322] border border-white/[0.06] overflow-hidden">
+            <div className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full transition-[width] duration-700" style={{ width: `${t?.progress_pct ?? 0}%` }} />
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-        <StatCard testId="stat-temperature" icon={Thermometer} label="Chamber Temp" value={t ? t.temperature_c : "—"} unit="°C" sub="LPG hot-air loop" accent="text-emerald-400" />
-        <StatCard testId="stat-humidity" icon={Droplets} label="Humidity" value={t ? t.humidity_pct : "—"} unit="%RH" sub="Exhaust air" accent="text-sky-400" />
-        <StatCard testId="stat-weight" icon={Weight} label="Product Weight" value={t ? t.weight_kg : "—"} unit="kg" sub="Load-cell array" accent="text-amber-400" />
-        <StatCard testId="stat-drying-time" icon={Timer} label="Drying Time" value={t ? fmtElapsed(t.elapsed_min) : "—"} sub={`${t?.progress_pct ?? 0}% of cycle`} accent="text-slate-200" />
-        <StatCard testId="stat-gas" icon={Flame} label="Gas Safety" value={t ? t.gas_ppm : "—"} unit="PPM" sub={t ? `Status: ${t.gas_status}` : ""} accent="text-emerald-400" />
-        <StatCard testId="stat-power" icon={Zap} label="Control Power" value={t ? `${t.power.battery_pct}%` : "—"} unit="batt" sub={t ? `Solar ${t.power.solar_w}W · 12V bus` : ""} accent="text-sky-400" />
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="sd-card p-5" data-testid="active-batch-card">
+          <div className="flex items-center justify-between mb-4">
+            <span className="sd-label">Active Batch</span>
+            <Link to="/history" data-testid="active-batch-history-link" className="text-[10px] font-mono text-slate-500 hover:text-emerald-400 transition-colors">HISTORY →</Link>
+          </div>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <div className="text-xl font-extrabold tracking-tight text-white" data-testid="active-batch-product">{t?.active_batch?.product || "Vegetables"}</div>
+              <div className="font-mono text-sm font-bold text-sky-400 mt-1" data-testid="active-batch-id">{t?.active_batch?.batch_id || "SDC-2026-090"}</div>
+            </div>
+            <span className={`px-2.5 py-1 rounded-full border text-[10px] font-mono font-bold tracking-wider ${statusStyle[t?.active_batch?.status || "RUNNING"]}`} data-testid="active-batch-status">
+              {t?.active_batch?.status || "RUNNING"}
+            </span>
+          </div>
+          <div className="mt-4 pt-4 border-t border-white/[0.06] grid grid-cols-2 gap-3">
+            <div>
+              <div className="text-[9px] font-mono uppercase tracking-widest text-slate-500">Trays</div>
+              <div className="font-mono text-sm text-slate-200 mt-0.5">{t?.active_batch?.tray_quantity || 24} / 24</div>
+            </div>
+            <div>
+              <div className="text-[9px] font-mono uppercase tracking-widest text-slate-500">Operator</div>
+              <div className="text-sm text-slate-200 mt-0.5 truncate">{t?.active_batch?.operator || "C. Eze"}</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="sd-card p-5" data-testid="process-monitoring-card">
+          <div className="sd-label mb-4">Process Monitoring</div>
+          <div className="grid grid-cols-3 gap-2">
+            <div>
+              <div className="flex items-center gap-1 text-[9px] font-mono uppercase tracking-widest text-slate-500"><Thermometer className="w-3 h-3 text-emerald-400" /> Temp</div>
+              <div className="font-mono text-lg lg:text-xl font-extrabold text-emerald-400 mt-1 whitespace-nowrap" data-testid="stat-temperature">{t ? t.temperature_c : "—"}<span className="text-[10px] text-slate-500 font-normal"> °C</span></div>
+            </div>
+            <div>
+              <div className="flex items-center gap-1 text-[9px] font-mono uppercase tracking-widest text-slate-500"><Weight className="w-3 h-3 text-amber-400" /> Weight</div>
+              <div className="font-mono text-lg lg:text-xl font-extrabold text-amber-400 mt-1 whitespace-nowrap" data-testid="stat-weight">{t ? t.weight_kg : "—"}<span className="text-[10px] text-slate-500 font-normal"> kg</span></div>
+            </div>
+            <div>
+              <div className="flex items-center gap-1 text-[9px] font-mono uppercase tracking-widest text-slate-500"><Timer className="w-3 h-3 text-slate-300" /> Time</div>
+              <div className="font-mono text-lg lg:text-xl font-extrabold text-slate-100 mt-1 whitespace-nowrap" data-testid="stat-drying-time">{t ? fmtElapsed(t.elapsed_min) : "—"}</div>
+            </div>
+          </div>
+          <div className="mt-4 pt-4 border-t border-white/[0.06] grid grid-cols-2 gap-3">
+            <div className="flex items-center justify-between rounded-lg bg-[#0d1322] border border-white/[0.06] px-3 py-2">
+              <span className="flex items-center gap-1.5 text-[10px] font-mono text-slate-500"><Droplets className="w-3 h-3 text-sky-400" /> HUMIDITY</span>
+              <span className="font-mono text-[11px] font-bold text-sky-400 whitespace-nowrap" data-testid="stat-humidity">{t ? `${t.humidity_pct} %RH` : "—"}</span>
+            </div>
+            <div className="flex items-center justify-between rounded-lg bg-[#0d1322] border border-white/[0.06] px-3 py-2">
+              <span className="flex items-center gap-1.5 text-[10px] font-mono text-slate-500"><Flame className="w-3 h-3 text-emerald-400" /> GAS</span>
+              <span className="font-mono text-[11px] font-bold text-emerald-400 whitespace-nowrap" data-testid="stat-gas">{t ? `${t.gas_ppm} PPM · ${t.gas_status}` : "—"}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="sd-card p-5 sm:col-span-2 lg:col-span-1" data-testid="energy-config-card">
+          <div className="sd-label mb-4">Energy Configuration</div>
+          <div className="space-y-2">
+            {[
+              { icon: Flame, label: "Thermal Source", value: t?.power.thermal_source || "LPG Hot-Air", tone: "text-amber-400" },
+              { icon: Zap, label: "Electrical Source", value: t?.power.electrical_source || "Solar PV + Battery", tone: "text-sky-400" },
+              { icon: PlugZap, label: "Grid", value: t?.power.grid_status || "OFF-GRID — NOT REQUIRED", tone: "text-slate-400" },
+              { icon: Sun, label: "Solar", value: t ? `${t.power.solar_status} · ${t.power.solar_w} W` : "—", tone: "text-sky-400" },
+              { icon: BatteryCharging, label: "Battery", value: t ? `${t.power.battery_status} · ${t.power.battery_pct}%` : "—", tone: "text-emerald-400" },
+            ].map((r) => (
+              <div key={r.label} className="flex items-center justify-between rounded-lg bg-[#0d1322] border border-white/[0.06] px-3 py-2">
+                <span className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-slate-500">
+                  <r.icon className={`w-3.5 h-3.5 ${r.tone}`} /> {r.label}
+                </span>
+                <span className={`font-mono text-[11px] font-bold ${r.tone}`}>{r.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-4">

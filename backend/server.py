@@ -448,6 +448,43 @@ async def energy_summary():
         "cost_per_kg": round(total_cost / dried_kg, 3) if dried_kg else 0,
         "cost_per_batch": round(total_cost / len(completed), 2) if completed else 0,
         "currency": "USD",
+        "thermal": {
+            "source": "LPG",
+            "lpg_consumption_kg": lpg_kg,
+            "operating_hours": round(total_hours, 1),
+            "data_source": "simulated",
+        },
+        "electrical": {
+            "source": "Solar + Battery",
+            "solar_status": "GENERATING (SIMULATED)",
+            "battery_status": "CHARGING (SIMULATED)",
+            "grid_status": "OFF",
+            "energy_kwh": battery_kwh,
+            "data_source": "simulated",
+        },
+        "process": {
+            "starting_weight_kg": round(start_w, 1),
+            "final_weight_kg": dried_kg,
+            "drying_duration_hours": round(total_hours, 1),
+            "product_yield_pct": round((final_w / start_w) * 100, 1) if start_w else 0,
+            "energy_per_kg_kwh": round(total_kwh / dried_kg, 2) if dried_kg else None,
+            "data_source": "simulated",
+        },
+        "timeseries": {
+            "data_source": "simulated",
+            "temperature": [
+                {"t": f"{(i / 23) * 8:.1f}h", "value": round(30 + 32 * (1 - math.exp(-3 * (i / 23))) + random.uniform(-0.8, 0.8), 1)}
+                for i in range(24)
+            ],
+            "weight": [
+                {"t": f"{(i / 23) * 8:.1f}h", "value": round(85 - 58 * (i / 23) + random.uniform(-0.3, 0.3), 2)}
+                for i in range(24)
+            ],
+            "energy_kwh": [
+                {"t": f"{(i / 23) * 8:.1f}h", "value": round((i / 23) * 8 * (0.92 * 12.8 + 0.11), 2)}
+                for i in range(24)
+            ],
+        },
         "energy_split": [
             {"name": "LPG Thermal", "value": lpg_kwh_equiv},
             {"name": "Solar PV", "value": solar_kwh},
